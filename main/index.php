@@ -76,7 +76,7 @@
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div class="flex-grow">
 						<label for="goes" class="text-sm text-gray-600">ประเภทเที่ยวบิน</label>
-						<select id="goes" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
+						<select id="goes" name="goes" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
 							<option selected disabled>กรุณาเลือกประเภทเที่ยวบิน</option>
 							<option value="go-1">เที่ยวเดียว</option>
 							<option value="go-2">ไป-กลับ</option>
@@ -85,17 +85,17 @@
 
 					<div class="flex-grow">
 						<label for="total-count" class="text-sm text-gray-600">จำนวนผู้โดยสาร</label>
-						<input id="pas_num" type="number" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
+						<input id="pas_num" name="pas_num" type="number" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
 					</div>
 				</div>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 					<div class="flex-grow">
 						<label for="from" class="text-sm text-gray-600">ต้นทาง</label>
-						<select id="from" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
+						<select id="from" name="from" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
 							<option selected disabled>กรุณาเลือกต้นทาง</option>
 							<?php
 								foreach($airport_table as $row){?>
-								<option value="<?php echo $row['airport_code'];?>"><?php echo $row['airport_name'];?></option>
+								<option value="<?php echo $row['airport_code'];?>"><?php echo $row['airport_code'] . ' ' . $row['airport_name'];?></option>
 							<?php
 								}
 							?>
@@ -103,11 +103,11 @@
 					</div>
 					<div class="flex-grow">
 						<label for="to" class="text-sm text-gray-600">ปลายทาง</label>
-						<select id="to" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
+						<select id="to" name="to" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
 							<option selected disabled>กรุณาเลือกต้นทาง</option>
 							<?php
 								foreach($airport_table as $row){?>
-								<option value="<?php echo $row['airport_code'];?>"><?php echo $row['airport_name'];?></option>
+								<option value="<?php echo $row['airport_code'];?>"><?php echo $row['airport_code'] . ' ' . $row['airport_name'];?></option>
 							<?php
 								}
 							?>
@@ -116,16 +116,16 @@
 				</div>
 				<div class="mt-4 flex-grow">
 					<label for="date" class="text-sm text-gray-600">วันที่ออกเดินทาง</label>
-					<input type="date" id="date"
+					<input type="date" id="date" name="date"
 						class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
 				</div>
 				<div class="mt-4 flex-grow hidden" id="return-date">
 					<label for="return" class="text-sm text-gray-600">วันที่เดินทางกลับ</label>
-					<input type="date" id="return"
+					<input type="date" id="return" name="return"
 						class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
 				</div>
 
-				<button type="submit" id="search-button" class="w-full mt-4 p-2 rounded-md bg-red-700 text-white hover:bg-red-800">
+				<button name="search" type="submit" id="search-button" class="w-full mt-4 p-2 rounded-md bg-red-700 text-white hover:bg-red-800">
 					ค้นหา
 				</button>
 			</form>
