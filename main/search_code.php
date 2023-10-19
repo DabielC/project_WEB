@@ -36,13 +36,23 @@
         {
             array_push($table_go, $row);
         }
-        print_r($table_return);
 	}
 ?>
     <div class="flex justify-center">
         <!-- Left Div (3:4) -->
         <div class="flex-4/5 my-10">
             <h2 class="text-3xl font-semibold mb-6  mx-10">โปรดเลือกเที่ยวบิน</h2>
+            <h4 class="text-xl mb-6  mx-10" id="trip_type" data-trip-type="<?php echo $trip_type;?>">ประเภทเที่ยวบิน :<?php
+                if($trip_type == 'go-1')
+                {
+                    echo ' เที่ยวเดียว';
+                }
+                else
+                {
+                    echo ' ไป-กลับ';
+                }
+                ?>
+            </h4>
             <div class="w-full border p-6 mt-10 mx-10 shadow-md">
                 <div class="flex items-start">
                     <div class="border bg-red-500 pr-10 px-6 py-6 rounded-lg">
@@ -60,11 +70,13 @@
                     <?php } ?>
                     <div class="text-center flex-1">
                         <h3 class="text-xl font-semibold">จำนวนผู้โดยสาร</h3>
-                        <h4 class="text-lg text-gray-600"><?php echo $pas_num; ?> คน</h4>
+                        <h4 class="text-lg text-gray-600" id="pas_num" data-pas-num="<?php echo $pas_num; ?>"><?php echo $pas_num; ?> คน</h4>
                     </div>
                 </div>
             </div>
-            <h2 class="text-3xl font-semibold mb-6 mt-10 mx-10">DMK to CNX ขาไป</h2>
+
+
+            <h2 class="text-3xl font-semibold mb-6 mt-10 mx-10"><?php echo $from; ?> to <?php echo $to; ?> ขาไป</h2>
             <div id="outbound-flights" class="w-full flex flex-col border p-6 mt-10 mx-10 shadow-md space-y-4">
 
             <?php
@@ -92,7 +104,11 @@
                     <div class="text-center flex-1">
                         <h3 class="text-lg font-semibold text-red-500">วันที่เดินทาง</h3>
                         <h4 class="text-lg text-red-500"
-                        id="outbound-date-<?php echo $i;?>"><?php echo $table_go[$i]['depart_date']?></h4>
+                        id="outbound-date-<?php echo $i;?>"
+                        data-date-out = "<?php echo $table_go[$i]['depart_date']?>"
+                        >
+                        <?php echo $table_go[$i]['depart_date']?>
+                        </h4>
                     </div>
 
                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full price-button"
@@ -107,7 +123,7 @@
             </div>
 
             <?php if($trip_type == 'go-2'){ ?>
-                <h2 class="text-3xl font-semibold mb-6 mt-10 mx-10">DMK to CNX ขากลับ</h2>
+                <h2 class="text-3xl font-semibold mb-6 mt-10 mx-10"><?php echo $to; ?> to <?php echo $from; ?> ขากลับ</h2>
 
                 <div id="return-flights" class="w-full flex flex-col border p-6 mt-10 mx-10 shadow-md space-y-4">
 
@@ -136,10 +152,14 @@
                         <div class="text-center flex-1">
                             <h3 class="text-lg font-semibold text-red-500">วันที่กลับ</h3>
                             <h4 class="text-lg text-red-500"
-                            id="return-date-<?php echo $i;?>"><?php echo $table_return[$i]['depart_date']?></h4>
+                            id="return-date-<?php echo $i;?>"
+                            data-date-return="<?php echo $table_return[$i]['depart_date']?>"
+                            >
+                            <?php echo $table_return[$i]['depart_date']?>
+                            </h4>
                         </div>
 
-                        <button class="bg-red-500 text-white px-4 py-2 rounded-full price-button"
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full price-button"
                             data-price-return="<?php echo $table_return[$i]['price'];?>"
                             data-direction="return"
                             data-index="<?php echo $i;?>">
@@ -157,19 +177,18 @@
         </div>
 
         <!-- Right Div (1:4) -->
-        <div class="w-1/4 h-1/4 pl-10 flex justify-center" id="summary">
+        <div class="w-1/4 h-1/4 pl-10 flex justify-center">
             <div class="border p-6 shadow-md mt-10 mx-10 w-full">
                 <h2 class="text-xl font-semibold mb-4">สรุปการจอง</h2>
-
-                <form action="passenger_form.php" method="POST">
+                <h2 class="text-xl text-red-500 font-semibold mb-4 hidden" id="caution">กรุณาเลือกเที่ยวบิน</h2>
                     <div id="summary" class="mb-4">
                         <div class="text-lg" id="go" name="go"></div>
-                        <div class="text-lg" id="back" name="back" ></div>
+                        <?php if($trip_type == 'go-2'){ ?>
+                            <div class="text-lg" id="back" name="back" ></div>
+                        <?php } ?>
                         <div class="text-lg font-semibold" id="total-price"></div>
                     </div>
-
-                    <button type="submit" id="confirm" name="confirm" class="bg-red-500 text-white px-4 py-2 rounded-full">ยืนยันการเลือกเที่ยวบิน</button></button>
-                </form>
+                    <button type="button" id="confirm" name="confirm" class="bg-red-500 text-white px-4 py-2 rounded-full">ยืนยันการเลือกเที่ยวบิน</button></button>
             </div>
         </div>
 
