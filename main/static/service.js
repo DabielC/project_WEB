@@ -1,4 +1,3 @@
-
         let selectedPlanName = '';
         let selectedPlanPrice = 0;
 
@@ -35,6 +34,8 @@
             document.getElementById('totalPrice').innerText = 'ราคาทั้งหมด: 0 THB';
         }
 
+
+		//food
         const selectedDishesSummary = document.getElementById('selectedDishesSummary');
         const totalPriceSummaryElement = document.getElementById('totalPriceSummary');
         let totalSummaryPrice = 0;
@@ -50,17 +51,6 @@
 
         function updateTotalSummaryPrice() {
             totalPriceSummaryElement.innerText = `ราคารวมทั้งหมด: ${totalSummaryPrice} THB`;
-        }
-
-        function showSummary() {
-            // Reset the summary before showing
-            selectedDishesSummary.innerHTML = '';
-            totalSummaryPrice = 0;
-
-            // Add each selected dish to the summary
-            // Modify this to match your actual dish names and prices
-            addToOrder('ซี่โครงราดซอส', 399);
-            // Add more addToOrder calls for each dish
         }
 
         function removeFood() {
@@ -80,9 +70,48 @@
             }
         }
 
+
+
+		//car
+        function removeCar() {
+			// ทำงานเมื่อปุ่มลบอาหารถูกคลิก
+			var carRentalDishesSummary = document.getElementById("carRentalDishesSummary");
+
+			// ลบทุก child node ของ ul
+			carRentalDishesSummary.innerHTML = '';
+
+			// รีเซ็ตราคารวม
+			const totalPriceSummaryElement = document.getElementById('carRentalTotalPriceSummary');
+            totalPriceSummaryElement.innerText = `ราคาทั้งหมด: 0 บาท`;
+		}
+
+
+		document.addEventListener("DOMContentLoaded", function () {
+			const dropOffInput = document.getElementById('dropOffDate');
+			const pickUpInput = document.getElementById('pickUpDate');
+
+			dropOffInput.addEventListener("change", function () {
+				const dropOffDate = new Date(dropOffInput.value);
+				const pickUpDate = new Date(pickUpInput.value);
+
+				// Check if drop-off date is earlier than pick-up date
+				if (dropOffDate < pickUpDate) {
+					// Set drop-off date to pick-up date
+					dropOffInput.valueAsDate = pickUpDate;
+				}
+			});
+		});
+
+
+
         function calculatePrice() {
             const pickUpDate = new Date(document.getElementById('pickUpDate').value);
             const dropOffDate = new Date(document.getElementById('dropOffDate').value);
+
+			console.log(pickUpTime, dropOffTime);
+
+			pickUpDate.setHours(0, 0, 0, 0);
+			dropOffDate.setHours(0, 0, 0, 0);
 
             // Check if dropOffDate is before pickUpDate
             if (dropOffDate < pickUpDate) {
@@ -90,30 +119,24 @@
                 return;
             }
 
-            const duration = (dropOffDate - pickUpDate) / (1000 * 60 * 60 * 24); // Calculate duration in days
+            const duration = (dropOffDate - pickUpDate) / (1000 * 60 * 60 * 24);
+			let pricePerDay = (500 - (duration - 1)*5);
+			if(duration == 0)
+			{
+				pricePerDay = 0;
+			}
 
-            let pricePerDay = 0;
-
-            if (duration === 1) {
-                pricePerDay = 500;
-            } else if (duration <= 3) {
-                pricePerDay = 475;
-            } else if (duration <= 7) {
-                pricePerDay = 450;
-            } else if (duration <= 15) {
-				pricePerDay = 400;
-        } else {
-            alert('ไม่อนุญาตให้เช่ามากกว่า 30 วัน');
-                return;
-	         }
 
             const totalPrice = duration * pricePerDay;
             updateSummary(duration, pricePerDay, totalPrice);
         }
 
         function updateSummary(duration, pricePerDay, totalPrice) {
+			const pickUpTime = document.getElementById('pickUpTime').value;
+            const dropOffTime = document.getElementById('dropOffTime').value;
             const summaryList = document.getElementById('carRentalDishesSummary');
-            summaryList.innerHTML = '';
+			summaryList.innerHTML = '';
+
 
             const listItemDuration = document.createElement('li');
             listItemDuration.innerText = `ระยะเวลาเช่า: ${duration} วัน`;
@@ -141,6 +164,8 @@
             additionalDetails.classList.toggle('hidden');
         }
 
+
+		//carousel
         tailwind.config = {
 			theme: {
 				extend: {

@@ -36,6 +36,11 @@
         {
             array_push($table_go, $row);
         }
+        if(empty($table_go))
+        {
+            $_SESSION['status'] = 'ไม่มีเที่ยวบินที่ต้องการ';
+            header('location: index.php');
+        }
 	}
 ?>
     <div class="flex justify-center">

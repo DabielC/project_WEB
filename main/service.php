@@ -19,6 +19,7 @@
 		);
 		$passenger[] = $temp;
 	}
+    $_SESSION['booking']['passenger'] = $passenger;
 ?>
 
 <div class="flex justify-center mt-10">
@@ -116,6 +117,8 @@
                     </div>
                 </div>
             </div>
+
+
             <h2 class="text-2xl font-bold my-10 mx-10">เลือกอาหารล่วงหน้า</h2>
             <div class="border p-4 rounded-md shadow-md">
                 <h2 class="text-xl font-bold">รายการอาหาร</h2>
@@ -277,16 +280,27 @@
                                 0 บาท
                             </div>
                             <div class="flex justify-center mt-4 gap-6 sm:flex flex-col items-center py-2 px-4 md:flex flex-col py-2 px-4 lg:flex flex-col py-2 px-4">
-                                <button onclick="submitForm();"
+                                <button onclick="removeCar();"
                                         class="bg-red-500 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full">
-                                    ยืนยัน
+                                    ลบ
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="border p-4 rounded-md shadow-md">
+                <div class="flex justify-center mt-4 gap-6 sm:flex flex-col items-center py-2 px-4 md:flex flex-col py-2 px-4 lg:flex flex-col py-2 px-4">
+                    <button"
+                        class="bg-red-500 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full">
+                            ยืนยันการเลือกบริการเสริม
+                    </button>
+                </div>
+            </div>
+
         </div>
+
+
 </div>
 
 <script src="static/service.js"></script>
