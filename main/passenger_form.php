@@ -9,18 +9,49 @@
 	$out_price = $_GET['out_price'];
 	$out_dep = $_GET['out_dep'];
 	$out_arv = $_GET['out_arv'];
-	$ret_origin = $_GET['ret_origin'];
-	$ret_dest = $_GET['ret_dest'];
-	$ret_price = $_GET['ret_price'];
-	$ret_dep = $_GET['ret_dep'];
-	$ret_arv = $_GET['ret_arv'];
+	$date_out = $_GET['date_out'];
+
 	$pas_num = $_GET['pas_num'];
 	$trip_type = $_GET['trip_type'];
 	$date_out = $_GET['date_out'];
-	if($trip_type == 'go-2')
-	{
+
+	if ($trip_type == 'go-2') {
 		$date_return = $_GET['date_return'];
+		$ret_origin = $_GET['ret_origin'];
+		$ret_dest = $_GET['ret_dest'];
+		$ret_price = $_GET['ret_price'];
+		$ret_dep = $_GET['ret_dep'];
+		$ret_arv = $_GET['ret_arv'];
+
+		$_SESSION['booking'] = array(
+			"out_origin" => $out_origin,
+			"out_dest" => $out_dest,
+			"out_price" => $out_price,
+			"out_dep" => $out_dep,
+			"out_arv" => $out_arv,
+			"date_out" => $date_out,
+			"date_return" => $date_return,
+			"ret_origin" => $ret_origin,
+			"ret_dest" => $ret_dest,
+			"ret_price" => $ret_price,
+			"ret_dep" => $ret_dep,
+			"ret_arv" => $ret_arv,
+			"pas_num" => $pas_num,
+			"trip_type" => $trip_type
+		);
+	} else {
+		$_SESSION['booking'] = array(
+			"out_origin" => $out_origin,
+			"out_dest" => $out_dest,
+			"out_price" => $out_price,
+			"out_dep" => $out_dep,
+			"out_arv" => $out_arv,
+			"date_out" => $date_out,
+			"pas_num" => $pas_num,
+			"trip_type" => $trip_type
+		);
 	}
+
 ?>
 <link rel="stylesheet" href="static/error.css">
 
@@ -50,13 +81,13 @@
 		<?php }?>
     </div>
 
-        <form id="passenger_form" method="POST" class="flex flex-col gap-4" novalidate>
+        <form id="passenger_form" action="service.php" method="POST" class="flex flex-col gap-4" novalidate>
 		<?php for($i = 1; $i < $pas_num+1; $i++) { ?>
 			<div class="mx-auto my-10 border p-6 shadow-md w-2/4 flex flex-col">
 				<h2 class="text-2xl font-semibold m-6 text-center">กรุณากรอกข้อมูลผู้โดยสารคนที่ <?php echo $i;?></h2>
 				<div class="mb-4">
-					<label for="prefix" class="block text-md font-medium leading-6 text-gray-900">คำนำหน้าชื่อ</label>
-					<select id="prefix" name="prefix" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+					<label for="prefix_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">คำนำหน้าชื่อ</label>
+					<select id="prefix_<?php echo $i; ?>" name="prefix_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<option value="" selected disabled>Please select</option>
 						<option value="Mr.">Mr.</option>
 						<option value="Mrs.">Mrs.</option>
@@ -68,64 +99,64 @@
 				</div>
 
 				<div>
-					<label for="firstname" class="block text-md font-medium leading-6 text-gray-900">ชื่อจริง</label>
+					<label for="firstname_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">ชื่อจริง</label>
 					<div class="mt-2">
-						<input id="firstname" name="firstname" type="text" autocomplete="given-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
-						<p id="firstname-error" class="text-red-600 text-xs mt-1"></p>
+						<input id="firstname_<?php echo $i; ?>" name="firstname_<?php echo $i; ?>" type="text" autocomplete="given-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<p id="firstname-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
 
 				<div>
-					<label for="lastname" class="block text-md font-medium leading-6 text-gray-900">นามสกุล</label>
+					<label for="lastname_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">นามสกุล</label>
 					<div class="mt-2">
-						<input id="lastname" name="lastname" type="text" autocomplete="family-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
-						<p id="lastname-error" class="text-red-600 text-xs mt-1"></p>
+						<input id="lastname_<?php echo $i; ?>" name="lastname_<?php echo $i; ?>" type="text" autocomplete="family-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<p id="lastname-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
 
 				<div>
-					<label for="firstname_eng" class="block text-md font-medium leading-6 text-gray-900">ชื่อจริงภาษาอังกฤษ</label>
+					<label for="firstname_eng_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">ชื่อจริงภาษาอังกฤษ</label>
 					<div class="mt-2">
-						<input id="firstname_eng" name="firstname_eng" type="text" autocomplete="given-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
-						<p id="firstname_eng-error" class="text-red-600 text-xs mt-1"></p>
+						<input id="firstname_eng_<?php echo $i; ?>" name="firstname_eng_<?php echo $i; ?>" type="text" autocomplete="given-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<p id="firstname_eng-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
 
 				<div>
-					<label for="lastname_eng" class="block text-md font-medium leading-6 text-gray-900">นามสกุลภาษาอังกฤษ</label>
+					<label for="lastname_eng_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">นามสกุลภาษาอังกฤษ</label>
 					<div class="mt-2">
-						<input id="lastname_eng" name="lastname_eng" type="text" autocomplete="family-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
-						<p id="lastname_eng-error" class="text-red-600 text-xs mt-1"></p>
+						<input id="lastname_eng_<?php echo $i; ?>" name="lastname_eng_<?php echo $i; ?>" type="text" autocomplete="family-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<p id="lastname_eng-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
 
 				<div>
-					<label for="email" class="block text-md font-medium leading-6 text-gray-900">อีเมล</label>
+					<label for="email_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">อีเมล</label>
 					<div class="mt-2">
-						<input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
-						<p id="email-error" class="text-red-600 text-xs mt-1"></p>
+						<input id="email_<?php echo $i; ?>" name="email_<?php echo $i; ?>" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<p id="email-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
 
 				<div>
-					<label for="phone" class="block text-md font-medium leading-6 text-gray-900">โทรศัพท์</label>
+					<label for="phone_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">โทรศัพท์</label>
 					<div class="mt-2">
-						<input id="phone" name="phone" type="tel" autocomplete="tel" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
-						<p id="phone-error" class="text-red-600 text-xs mt-1"></p>
+						<input id="phone_<?php echo $i; ?>" name="phone_<?php echo $i; ?>" type="tel" autocomplete="tel" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<p id="phone-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
 
 				<div>
-					<label for="dob" class="block text-md font-medium leading-6 text-gray-900">วันเกิด</label>
+					<label for="dob_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">วันเกิด</label>
 					<div class="mt-2">
-						<input type="date" id="DOB" name="DOB" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
-							<p id="DOB-error" class="text-red-600 text-xs mt-1"></p>
+						<input type="date" id="DOB_<?php echo $i; ?>" name="DOB_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+							<p id="DOB-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 						</div>
 				</div>
 
 				<div class="mb-4">
-					<label for="nationality" class="block text-md font-medium leading-6 text-gray-900">สัญชาติ</label>
-					<select id="nationality" name="nationality" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+					<label for="nationality_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">สัญชาติ</label>
+					<select id="nationality_<?php echo $i; ?>" name="nationality_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<option value="" disabled selected>โปรดเลือกสัญชาติ</option>
 						<option value="thailand">ไทย</option>
 						<option value="usa">สหรัฐอเมริกา</option>
@@ -325,11 +356,74 @@
 						<option value="zimbabwe">ซิมบับเว</option>
 					</select>
 				</div>
-				<button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">บันทึก</button>
-							</div>
-
+			</div>
 			<?php } ?>
+			<div class="mx-auto my-10 border p-6 shadow-md w-2/4 flex flex-col">
+				<button type="submit" name="confirm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">บันทึก</button>
+			</div>
 		</form>
 
-<script src="static/passenger.js"></script>
+
+
+		<script src="static/passenger.js"></script>
+
+		<script>
+
+			for (let i = 1; i < <?php echo $pas_num+1; ?>; i++) {
+				document.getElementById(`firstname_${i}`).addEventListener('input', () => validateForm(i));
+				document.getElementById(`lastname_${i}`).addEventListener('input', () => validateForm(i));
+				document.getElementById(`firstname_eng_${i}`).addEventListener('input', () => validateForm(i));
+				document.getElementById(`lastname_eng_${i}`).addEventListener('input', () => validateForm(i));
+				document.getElementById(`email_${i}`).addEventListener('input', () => validateForm(i));
+				document.getElementById(`phone_${i}`).addEventListener('input', () => validateForm(i));
+				document.getElementById(`DOB_${i}`).addEventListener('input', () => validateForm(i));
+				document.getElementById(`prefix_${i}`).addEventListener('input', () => validateForm(i));
+				document.getElementById(`nationality_${i}`).addEventListener('input', () => validateForm(i));
+			}
+
+			$(document).ready(function() {
+				$('#passenger_form').submit(function(event) {
+
+					// Check if any required fields are empty
+					var formValid = true;
+					$(this).find('input[required]').each(function() {
+						if ($.trim($(this).val()) === '') {
+							formValid = false;
+							$(this).addClass('error');
+						}
+					});
+
+					$(this).find('select[required]').each(function() {
+						if ($(this).val() === null || $(this).val() === '') {
+						formValid = false;
+						$(this).addClass('error'); // You can style the empty selects as needed
+						}
+					});
+
+
+					if (!formValid) {
+						event.preventDefault();
+					}
+					else
+					{
+						// Serialize form data
+						var formData = $(this).serialize();
+
+						// Send data to the server using AJAX
+						$.ajax({
+							type: 'POST',
+							url: $(this).attr('action'),
+							data: formData,
+							error: function(jqXHR, textStatus, errorThrown) {
+								console.log('AJAX Error:', textStatus, errorThrown);
+							}
+						});
+					}
+
+				});
+			});
+
+		</script>
+
+
 <?php include('includes/footer.php')?>

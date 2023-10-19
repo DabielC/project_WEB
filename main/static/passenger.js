@@ -20,19 +20,40 @@ function isphone(number) {
 
 
 //validate form on input change
-function validateForm() {
-	const firstname = document.getElementById('firstname').value;
-	const lastname = document.getElementById('lastname').value;
-	const firstname_eng = document.getElementById('firstname_eng').value;
-	const lastname_eng = document.getElementById('lastname_eng').value;
-	const email = document.getElementById('email').value;
-	const phone = document.getElementById('phone').value;
-	const DOB = document.getElementById('DOB').value;
+function validateForm(passengerNumber) {
+	const firstname = document.getElementById(`firstname_${passengerNumber}`).value;
+    const lastname = document.getElementById(`lastname_${passengerNumber}`).value;
+    const firstname_eng = document.getElementById(`firstname_eng_${passengerNumber}`).value;
+    const lastname_eng = document.getElementById(`lastname_eng_${passengerNumber}`).value;
+    const email = document.getElementById(`email_${passengerNumber}`).value;
+    const phone = document.getElementById(`phone_${passengerNumber}`).value;
+    const DOB = document.getElementById(`DOB_${passengerNumber}`).value;
 
+
+	const DOBInput = document.getElementById(`DOB_${passengerNumber}`);
+    const DOB_error = document.getElementById(`DOB-error_${passengerNumber}`);
+
+    const firstname_engInput = document.getElementById(`firstname_eng_${passengerNumber}`);
+    const lastname_engInput = document.getElementById(`lastname_eng_${passengerNumber}`);
+    const firstname_eng_error = document.getElementById(`firstname_eng-error_${passengerNumber}`);
+    const lastname_eng_error = document.getElementById(`lastname_eng-error_${passengerNumber}`);
+
+    const firstnameInput = document.getElementById(`firstname_${passengerNumber}`);
+    const lastnameInput = document.getElementById(`lastname_${passengerNumber}`);
+    const firstname_error = document.getElementById(`firstname-error_${passengerNumber}`);
+    const lastname_error = document.getElementById(`lastname-error_${passengerNumber}`);
+
+    const emailInput = document.getElementById(`email_${passengerNumber}`);
+    const email_error = document.getElementById(`email-error_${passengerNumber}`);
+
+    const phoneInput = document.getElementById(`phone_${passengerNumber}`);
+    const phone_error = document.getElementById(`phone-error_${passengerNumber}`);
+
+    const prefixInput = document.getElementById(`prefix_${passengerNumber}`);
+
+    const nationality = document.getElementById(`nationality_${passengerNumber}`);
 
 	//DOB
-	const DOBInput = document.getElementById('DOB');
-	const DOB_error = document.getElementById('DOB-error');
 	if(DOB != ''){
 		DOBInput.classList.remove('error');
         DOBInput.classList.add('valid');
@@ -46,10 +67,6 @@ function validateForm() {
 
 
 	//iseng validate
-	const firstname_engInput = document.getElementById('firstname_eng');
-    const lastname_engInput = document.getElementById('lastname_eng');
-	const firstname_eng_error = document.getElementById('firstname_eng-error');
-    const lastname_eng_error = document.getElementById('lastname_eng-error');
 	if (isEnglishName(firstname_eng)) {
         firstname_engInput.classList.remove('error');
         firstname_engInput.classList.add('valid');
@@ -70,10 +87,6 @@ function validateForm() {
     }
 
 	//isthai validate
-	const firstnameInput = document.getElementById('firstname');
-    const lastnameInput = document.getElementById('lastname');
-	const firstname_error = document.getElementById('firstname-error');
-    const lastname_error = document.getElementById('lastname-error');
 	if (isThaiName(firstname)) {
         firstnameInput.classList.remove('error');
         firstnameInput.classList.add('valid');
@@ -94,8 +107,6 @@ function validateForm() {
     }
 
 	// Validate Email
-	const emailInput = document.getElementById('email');
-	const email_error = document.getElementById('email-error');
 	if (validateEmail(email)) {
 		emailInput.classList.remove('error');
 		emailInput.classList.add('valid');
@@ -107,8 +118,6 @@ function validateForm() {
 	}
 
 	//phone validate
-	const phoneInput = document.getElementById('phone');
-	const phone_error = document.getElementById('phone-error');
 	if(isphone(phone)){
 		phoneInput.classList.remove('error');
 		phoneInput.classList.add('valid');
@@ -122,7 +131,6 @@ function validateForm() {
 	}
 
 	//check prefix
-	const prefixInput = document.getElementById('prefix');
 	if(prefixInput.value != ''){
 		prefixInput.classList.remove('error');
 		prefixInput.classList.add('valid');
@@ -134,7 +142,6 @@ function validateForm() {
 	}
 
 	//check nation
-	const nationality = document.getElementById('nationality');
 	if(nationality.value != ''){
 		nationality.classList.remove('error');
 		nationality.classList.add('valid');
@@ -145,56 +152,3 @@ function validateForm() {
 		nationality.classList.remove('valid');
 	}
 }
-
-
-document.getElementById('firstname').addEventListener('input', validateForm);
-document.getElementById('lastname').addEventListener('input', validateForm);
-document.getElementById('firstname_eng').addEventListener('input', validateForm);
-document.getElementById('lastname_eng').addEventListener('input', validateForm);
-document.getElementById('email').addEventListener('input', validateForm);
-document.getElementById('phone').addEventListener('input', validateForm);
-document.getElementById('DOB').addEventListener('input', validateForm);
-document.getElementById('prefix').addEventListener('input', validateForm);
-document.getElementById('nationality').addEventListener('input', validateForm);
-
-$(document).ready(function() {
-    $('#passenger_form').submit(function(event) {
-
-        // Check if any required fields are empty
-        var formValid = true;
-        $(this).find('input[required]').each(function() {
-            if ($.trim($(this).val()) === '') {
-                formValid = false;
-                $(this).addClass('error');
-            }
-        });
-
-		$(this).find('select[required]').each(function() {
-			if ($(this).val() === null || $(this).val() === '') {
-			  formValid = false;
-			  $(this).addClass('error'); // You can style the empty selects as needed
-			}
-		  });
-
-
-        if (!formValid) {
-            event.preventDefault();
-        }
-		else
-		{
-			// Serialize form data
-			var formData = $(this).serialize();
-
-			// Send data to the server using AJAX
-			$.ajax({
-				type: 'POST',
-				url: $(this).attr('action'),
-				data: formData,
-				error: function(jqXHR, textStatus, errorThrown) {
-					console.log('AJAX Error:', textStatus, errorThrown);
-				}
-			});
-		}
-
-    });
-});
