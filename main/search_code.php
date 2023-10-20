@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="text-center flex-1">
-                        <h2 class="text-xl font-semibold">ถึง</h2>
+                        <h2 id='go_<?php echo $i?>' class="text-xl font-semibold" data-id-go="<?php echo $table_go[$i]['flight_id'];?>">ถึง</h2>
                     </div>
 
                     <div class="text-center flex-1">
@@ -122,7 +122,8 @@
                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full price-button"
                         data-price-outbound="<?php echo $table_go[$i]['price'];?>"
                         data-direction="outbound"
-                        data-index="<?php echo $i;?>">
+                        data-index="<?php echo $i;?>"
+                        >
                         <?php echo $table_go[$i]['price'];?> THB
                     </button>
                 </div>
@@ -147,7 +148,7 @@
                         </div>
 
                         <div class="text-center flex-1">
-                            <h2 class="text-xl font-semibold">ถึง</h2>
+                            <h2 id='back_<?php echo $i?>' class="text-xl font-semibold" data-id-return="<?php echo $table_return[$i]['flight_id'];?>">ถึง</h2>
                         </div>
 
                         <div class="text-center flex-1">
@@ -170,7 +171,8 @@
                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full price-button"
                             data-price-return="<?php echo $table_return[$i]['price'];?>"
                             data-direction="return"
-                            data-index="<?php echo $i;?>">
+                            data-index="<?php echo $i;?>"
+                            >
                             <?php echo $table_return[$i]['price'];?> THB
                         </button>
                     </div>
@@ -189,6 +191,7 @@
             <div class="border p-6 shadow-md mt-10 mx-10 w-full">
                 <h2 class="text-xl font-semibold mb-4">สรุปการจอง</h2>
                 <h2 class="text-xl text-red-500 font-semibold mb-4 hidden" id="caution">กรุณาเลือกเที่ยวบิน</h2>
+                <h2 class="text-xl text-red-500 font-semibold mb-4 hidden" id="caution1">วันเดินทางกลับควรมากกว่าหรือเท่ากับวันเดินทางออก</h2>
                     <div id="summary" class="mb-4">
                         <div class="text-lg" id="go" name="go"></div>
                         <?php if($trip_type == 'go-2'){ ?>

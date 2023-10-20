@@ -23,10 +23,13 @@ var ret_price = '';
 var ret_dep = '';
 var ret_arv = '';
 
-$(document).ready(function () {
+var date_out_out = '';
+var date_return_out = '';
+var out_id = '';
+var ret_id = '';
 
-    var date_out_out = '';
-    var date_return_out = '';
+
+$(document).ready(function () {
     var pas_num = parseFloat($('#pas_num').data('pas-num'));
     var trip_type = $('#trip_type').data('trip-type');
 
@@ -34,20 +37,20 @@ $(document).ready(function () {
 
     $('.price-button').click(function () {
 
-        var price_return = parseFloat($(this).data('price-return'));
-        var price_outbound = parseFloat($(this).data('price-outbound'));
         var direction = $(this).data('direction');
         var index = $(this).data('index');
-        var date_out = $('#outbound-date-' + index).data('date-out');
-        date_out_out = date_out;
-        var date_return = $('#return-date-' + index).data('date-return');
-        date_return_out = date_return;
         var origin = $('#' + direction + '-origin-' + index).text();
         var dest = $('#' + direction + '-dest-' + index).text();
         var departureTime = $('#' + direction + '-departure-time-' + index).text();
         var arriveTime = $('#' + direction + '-arrival-time-' + index).text();
         var newSummary = '';
+
         if (direction === 'outbound') {
+            var price_outbound = parseFloat($(this).data('price-outbound'));
+            var date_out = $('#outbound-date-' + index).data('date-out');
+            date_out_out = date_out;
+            var go_id = $("#go_" + index).data('id-go');
+            out_id = go_id;
             newSummary = 'ขาไป: ' + origin + ' ถึง ' + dest
             + '<br>&nbsp;&nbsp;ราคา : ' + price_outbound + ' THB<br>&nbsp;&nbsp;เวลา : '
             + departureTime + ' ถึง ' + arriveTime
@@ -60,6 +63,11 @@ $(document).ready(function () {
             $('#caution').addClass("hidden");
             $('#go').html(newSummary);
         } else if (direction === 'return') {
+            var price_return = parseFloat($(this).data('price-return'));
+            var date_return = $('#return-date-' + index).data('date-return');
+            date_return_out = date_return;
+            var back_id = $("#back_" + index).data('id-return');
+            ret_id = back_id;
             newSummary = 'ขากลับ: ' + origin + ' ถึง ' + dest
             + '<br>&nbsp;&nbsp;ราคา : ' + price_return + ' THB<br>&nbsp;&nbsp;เวลา : '
             + departureTime + ' ถึง ' + arriveTime
@@ -69,6 +77,7 @@ $(document).ready(function () {
             ret_price = price_return;
             ret_dep = departureTime;
             ret_arv = arriveTime;
+            $('#caution1').addClass("hidden");
             $('#caution').addClass("hidden");
             $('#back').html(newSummary);
         }
@@ -93,19 +102,25 @@ $(document).ready(function () {
             $('#caution').removeClass("hidden");
         }
         else if(trip_type == 'go-1'){
-            window.location.href = "passenger_form.php?" + "out_origin=" + out_origin + "&out_dest=" + out_dest
+            window.location.href = "passenger_form.php?" + "&out_id=" + out_id + "&out_origin=" + out_origin + "&out_dest=" + out_dest
             + "&out_price=" + out_price + "&out_dep=" + out_dep + "&out_arv=" + out_arv
-            + "&ret_origin=" + ret_origin + "&ret_dest=" + ret_dest
-            + "&ret_price=" + ret_price + "&ret_dep=" + ret_dep + "&ret_arv=" + ret_arv + "&pas_num=" + pas_num + "&trip_type=" + trip_type
+            + "&pas_num=" + pas_num + "&trip_type=" + trip_type
             + "&date_out=" + date_out_out;
         }
         else if(trip_type == 'go-2')
         {
-            window.location.href = "passenger_form.php?" + "out_origin=" + out_origin + "&out_dest=" + out_dest
+            if(date_return_out < date_out_out)
+            {
+                $('#caution1').removeClass("hidden");
+            }
+            else
+            {
+                window.location.href = "passenger_form.php?" + "&out_id=" + out_id + "&out_origin=" + out_origin + "&out_dest=" + out_dest
             + "&out_price=" + out_price + "&out_dep=" + out_dep + "&out_arv=" + out_arv
-            + "&ret_origin=" + ret_origin + "&ret_dest=" + ret_dest
+            + "&ret_id=" + ret_id + "&ret_origin=" + ret_origin + "&ret_dest=" + ret_dest
             + "&ret_price=" + ret_price + "&ret_dep=" + ret_dep + "&ret_arv=" + ret_arv + "&pas_num=" + pas_num + "&trip_type=" + trip_type
             + "&date_out=" + date_out_out + "&date_return=" + date_return_out;
+            }
         }
     });
 });

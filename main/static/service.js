@@ -205,58 +205,6 @@
         const caution2 = document.getElementById('caution2');
         const caution3 = document.getElementById('caution3');
         var car_rent = [];
-        document.addEventListener("DOMContentLoaded", function () {
-                const dropOffInput = document.getElementById('dropOffDate');
-                const pickUpInput = document.getElementById('pickUpDate');
-                dropOffInput.addEventListener("change", function () {
-                    const dropOffDate = new Date(dropOffInput.value);
-                    const pickUpDate = new Date(pickUpInput.value);
-                    const duration = (dropOffDate - pickUpDate) / (1000 * 60 * 60 * 24);
-
-                    if (dropOffDate < pickUpDate) {
-                        dropOffInput.valueAsDate = pickUpDate;
-                    }
-                    if(duration > 30)
-                    {
-                        removeCar();
-                        caution2.classList.remove('hidden');
-                    }
-                });
-            });
-
-        function calculatePrice() {
-            const pickUpDate = new Date(document.getElementById('pickUpDate').value);
-            const pickUp = document.getElementById('pickUpDate').value;
-            const dropOffDate = new Date(document.getElementById('dropOffDate').value);
-            const dropOff = document.getElementById('dropOffDate').value;
-            const pickUpTime = document.getElementById('pickUpTime').value;
-            const dropOffTime = document.getElementById('dropOffTime').value;
-            const duration = (dropOffDate - pickUpDate) / (1000 * 60 * 60 * 24);
-
-			if(pickUpDate == "Invalid Date" || dropOffDate == "Invalid Date")
-            {
-                caution1.classList.remove('hidden');
-            }
-            else if(pickUpTime == "" || dropOffTime == ""){
-                caution3.classList.remove('hidden');
-            }
-            else
-            {
-                caution3.classList.add('hidden');
-                if(duration <= 30){
-                        caution2.classList.add('hidden');
-                        let pricePerDay = (500 - (duration - 1)*5);
-                        if(duration == 0)
-                        {
-                            pricePerDay = 0;
-                    }
-
-
-                    const totalPrice = duration * pricePerDay;
-                    updateSummary(duration, pricePerDay, totalPrice, pickUp, dropOff, pickUpTime, dropOffTime);
-                }
-            }
-        }
 
         function updateSummary(duration, pricePerDay, totalPrice, pickUpDate, dropOffDate, pickUpTime, dropOffTime) {
             const summaryList = document.getElementById('carRentalDishesSummary');

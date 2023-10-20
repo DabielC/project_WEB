@@ -10,6 +10,7 @@
 	$out_dep = $_GET['out_dep'];
 	$out_arv = $_GET['out_arv'];
 	$date_out = $_GET['date_out'];
+	$out_id = $_GET['out_id'];
 
 	$pas_num = $_GET['pas_num'];
 	$trip_type = $_GET['trip_type'];
@@ -22,36 +23,39 @@
 		$ret_price = $_GET['ret_price'];
 		$ret_dep = $_GET['ret_dep'];
 		$ret_arv = $_GET['ret_arv'];
+		$ret_id = $_GET['ret_id'];
 
-		$_SESSION['booking'] = array(
-			"out_origin" => $out_origin,
+		$_SESSION['booking'] = array( "booking" => [
+			"out" => ["out_origin" => $out_origin,
 			"out_dest" => $out_dest,
 			"out_price" => $out_price,
 			"out_dep" => $out_dep,
 			"out_arv" => $out_arv,
-			"date_out" => $date_out,
-			"date_return" => $date_return,
-			"ret_origin" => $ret_origin,
+			"out_id" => $out_id,
+			"date_out" => $date_out],
+			"ret" => ["ret_origin" => $ret_origin,
 			"ret_dest" => $ret_dest,
 			"ret_price" => $ret_price,
 			"ret_dep" => $ret_dep,
 			"ret_arv" => $ret_arv,
+			"ret_id" => $ret_id,
+			"date_return" => $date_return],
 			"pas_num" => $pas_num,
-			"trip_type" => $trip_type
+			"trip_type" => $trip_type]
 		);
 	} else {
-		$_SESSION['booking'] = array(
-			"out_origin" => $out_origin,
+		$_SESSION['booking'] = array("booking" => [
+			"out" => ["out_origin" => $out_origin,
 			"out_dest" => $out_dest,
 			"out_price" => $out_price,
 			"out_dep" => $out_dep,
 			"out_arv" => $out_arv,
-			"date_out" => $date_out,
+			"out_id" => $out_id,
+			"date_out" => $date_out],
 			"pas_num" => $pas_num,
-			"trip_type" => $trip_type
+			"trip_type" => $trip_type]
 		);
 	}
-
 ?>
 <link rel="stylesheet" href="static/error.css">
 
@@ -64,6 +68,7 @@
                 <h2 class="text-2xl font-bold mb-2">ขาไป : <?php echo $out_origin;?> to <?php echo $out_dest;?></h2>
                 <div class="text-lg text-gray-800 mb-2">รายละเอียดเที่ยวบิน</div>
                 <div class="text-gray-600 mb-2">เวลาที่ออกเดินทาง : <?php echo $out_dep;?></div>
+                <div class="text-gray-600 mb-2">เวลาที่ถึง : <?php echo $out_arv;?></div>
                 <div class="text-gray-600 mb-2">วันที่ออกเดินทาง : <?php echo $date_out;?></div>
                 <div class="inline-block bg-red-500 text-white p-2 rounded-full"><?php echo $out_price;?> บาท</div>
             </div>
@@ -74,6 +79,7 @@
 					<h2 class="text-2xl font-bold mb-2">ขากลับ : <?php echo $ret_origin;?> to <?php echo $ret_dest;?></h2>
 					<div class="text-lg text-gray-800 mb-2">รายละเอียดเที่ยวบิน</div>
                 	<div class="text-gray-600 mb-2">เวลาที่เดินทางกลับ : <?php echo $ret_dep;?></div>
+                	<div class="text-gray-600 mb-2">เวลาที่ถึง : <?php echo $ret_arv;?></div>
                 	<div class="text-gray-600 mb-2">วันที่เดินทางกลับ : <?php echo $date_return;?></div>
 					<div class="inline-block bg-red-500 text-white p-2 rounded-full"><?php echo $ret_price;?> บาท</div>
 				</div>

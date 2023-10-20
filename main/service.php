@@ -7,7 +7,7 @@
 	include("includes/navbar.php");
 	include("dbcon.php");
 	$passenger = [];
-	for ($i = 1; $i < $_SESSION['booking']['pas_num'] + 1; $i++) {
+	for ($i = 1; $i < $_SESSION['booking']['booking']['pas_num'] + 1; $i++) {
 		$temp = array(
 			"prefix" => $_POST["prefix_$i"],
 			"firstname" => $_POST["firstname_$i"],
@@ -22,6 +22,7 @@
 		$passenger[] = $temp;
 	}
     $_SESSION['booking']['passenger'] = $passenger;
+    print_r($_SESSION['booking']);
 ?>
 
 <div class="flex justify-center mt-10">
@@ -91,7 +92,7 @@
                     <!-- price -->
                     <div class="flex justify-center mt-4 gap-10 sm:flex flex-col items-center py-1 px-1 md:flex flex-col py-1 px-1 lg:flex flex-col py-1 px-1">
 
-                        <?php if($_SESSION['booking']['pas_num'] == 1) {?>
+                        <?php if($_SESSION['booking']['booking']['pas_num'] == 1) {?>
                         <div>
                             <button class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full"
                                 onclick="selectPlan('แผนคนเดียว', 249)">
@@ -99,7 +100,7 @@
                             </button>
                         </div>
                         <?php }?>
-                        <?php if($_SESSION['booking']['pas_num'] >= 2 and $_SESSION['booking']['pas_num'] <= 4) {?>
+                        <?php if($_SESSION['booking']['booking']['pas_num'] >= 2 and $_SESSION['booking']['pas_num'] <= 4) {?>
                         <div>
                             <button class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full"
                                 onclick="selectPlan('แผนครอบครัว', 599)">
@@ -107,7 +108,7 @@
                             </button>
                         </div>
                         <?php }?>
-                        <?php if($_SESSION['booking']['pas_num'] > 4) {?>
+                        <?php if($_SESSION['booking']['booking']['pas_num'] > 4) {?>
                         <div>
                             <button class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full"
                                 onclick="selectPlan('แผนกลุ่มหรือหมู่คณะ', 999)">
@@ -150,7 +151,7 @@
                                 <h2 class="text-xl text-center text-red-500 font-semibold mb-4 hidden" id="caution">กรุณาเลือกผู้โดยสาร</h2>
                                 <select id="users" name="users" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
                                     <option value="" selected disabled>กรุณาเลือกผู้โดยสารสำหรับเลือกอาหาร</option>
-                                    <?php for($i = 0; $i < count($_SESSION['booking']['passenger']); $i++){?>
+                                    <?php for($i = 0; $i < $_SESSION['booking']['booking']['pas_num']; $i++){?>
                                         <option value="<?php echo $_SESSION['booking']['passenger'][$i]["firstname"]; ?>"> <?php echo 'คุณ : ' . $_SESSION['booking']['passenger'][$i]["firstname"]; ?> </option>
                                     <?php }?>
 						        </select>
@@ -315,6 +316,8 @@
                             <h2 class="text-xl text-center text-red-500 font-semibold mb-4 hidden" id="caution1">กรุณาเลือกวันที่</h2>
                             <h2 class="text-xl text-center text-red-500 font-semibold mb-4 hidden" id="caution2">ให้บริการเช่ารถได้มากสุด 30 วัน</h2>
                             <h2 class="text-xl text-center text-red-500 font-semibold mb-4 hidden" id="caution3">กรุณาเลือกเวลา รับ/ส่ง รถ</h2>
+                            <h2 class="text-xl text-center text-red-500 font-semibold mb-4 hidden" id="caution4">วันที่ส่งรถมากกว่าวันที่เดินทางกลับ</h2>
+                            <h2 class="text-xl text-center text-red-500 font-semibold mb-4 hidden" id="caution5">วันที่รับรถน้อยกว่าวันที่เดินออกทาง</h2>
 
                             <ul id="carRentalDishesSummary" class="list-disc pl-5 mb-4"></ul>
                             <div id="carRentalTotalPriceSummary" class="text-center font-bold mb-4">ราคาทั้งหมด:
@@ -347,4 +350,83 @@
 
 
 <script src="static/service.js"></script>
+<script>
+    function calculatePrice() {
+            const pickUpDate = new Date(document.getElementById('pickUpDate').value);
+            const pickUp = document.getElementById('pickUpDate').value;
+            const dropOffDate = new Date(document.getElementById('dropOffDate').value);
+            const dropOff = document.getElementById('dropOffDate').value;
+            const pickUpTime = document.getElementById('pickUpTime').value;
+            const dropOffTime = document.getElementById('dropOffTime').value;
+            const duration = (dropOffDate - pickUpDate) / (1000 * 60 * 60 * 24);
+
+			if(pickUpDate == "Invalid Date" || dropOffDate == "Invalid Date")
+            {
+                caution1.classList.remove('hidden');
+            }
+            else if(pickUpTime == "" || dropOffTime == ""){
+                caution3.classList.remove('hidden');
+            }
+            else
+            {
+                caution3.classList.add('hidden');
+                caution4.classList.add('hidden');
+                caution5.classList.add('hidden');
+
+                if(duration <= 30){
+                        caution2.classList.add('hidden');
+                        let pricePerDay = (500 - (duration - 1)*5);
+                        if(duration == 0)
+                        {
+                            pricePerDay = 0;
+                            return;
+                    }
+
+
+                    const totalPrice = duration * pricePerDay;
+                    updateSummary(duration, pricePerDay, totalPrice, pickUp, dropOff, pickUpTime, dropOffTime);
+                }
+            }
+        }
+    document.addEventListener("DOMContentLoaded", function () {
+                const dropOffInput = document.getElementById('dropOffDate');
+                const pickUpInput = document.getElementById('pickUpDate');
+                const dropOffDate = new Date(dropOffInput.value);
+                const pickUpDate = new Date(pickUpInput.value);
+                dropOffInput.addEventListener("change", function () {
+                    const dropOffDate = new Date(dropOffInput.value);
+                    const pickUpDate = new Date(pickUpInput.value);
+                    const duration = (dropOffDate - pickUpDate) / (1000 * 60 * 60 * 24);
+                    if (dropOffDate < pickUpDate) {
+                        dropOffInput.valueAsDate = pickUpDate;
+                    }
+                    if(duration > 30)
+                    {
+                        removeCar();
+                        caution2.classList.remove('hidden');
+                    }
+                    <?php if(isset($_SESSION['booking']['booking']['ret']['date_return'])){?>
+                    if(dropOffDate > new Date("<?php echo $_SESSION['booking']['booking']['ret']['date_return'];?>"))
+                    {
+                        dropOffInput.valueAsDate = new Date("<?php echo $_SESSION['booking']['booking']['ret']['date_return'];?>");
+                    }
+                    <?php } ?>
+                });
+
+                pickUpInput.addEventListener("change", function () {
+                    const dropOffDate = new Date(dropOffInput.value);
+                    const pickUpDate = new Date(pickUpInput.value);
+                    if(pickUpDate < new Date("<?php echo $_SESSION['booking']['booking']['out']['date_out'];?>"))
+                    {
+                        pickUpInput.valueAsDate = new Date("<?php echo $_SESSION['booking']['booking']['out']['date_out'];?>");
+                    }
+                    <?php if(isset($_SESSION['booking']['booking']['ret']['date_return'])){?>
+                    if(pickUpDate > new Date("<?php echo $_SESSION['booking']['booking']['ret']['date_return'];?>"))
+                    {
+                        pickUpInput.valueAsDate = new Date("<?php echo $_SESSION['booking']['booking']['ret']['date_return'];?>");
+                    }
+                    <?php } ?>
+                });
+            });
+</script>
 <?php include("includes/footer.php"); ?>
