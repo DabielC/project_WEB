@@ -1,9 +1,12 @@
 <?php
+    header('Cache-Control: no cache');
+    session_cache_limiter('private_no_expire');
     session_start();
 	$page_title = "ค้นหาเที่ยวบิน";
 	include('includes/head.php');
 	include("includes/navbar.php");
 	include("dbcon.php");
+
     if (isset($_POST['search'])) {
         $trip_type = $_POST['goes'];
         $pas_num = $_POST['pas_num'];
