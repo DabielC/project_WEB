@@ -88,8 +88,9 @@
     </div>
 
         <form id="passenger_form" action="service.php" method="POST" class="flex flex-col gap-4" novalidate>
+		<div class="h-96 overflow-x-hidden overflow-y-scroll w-auto">
 		<?php for($i = 1; $i < $pas_num+1; $i++) { ?>
-			<div class="mx-auto my-10 border p-6 shadow-md w-2/4 flex flex-col">
+			<div class="mx-auto my-10 border p-6 shadow-md w-2/4  flex flex-col">
 				<h2 class="text-2xl font-semibold m-6 text-center">กรุณากรอกข้อมูลผู้โดยสารคนที่ <?php echo $i;?></h2>
 				<div class="mb-4">
 					<label for="prefix_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">คำนำหน้าชื่อ</label>
@@ -364,6 +365,7 @@
 				</div>
 			</div>
 			<?php } ?>
+			</div>
 			<div class="mx-auto my-10 border p-6 shadow-md w-2/4 flex flex-col">
 				<button type="submit" name="confirm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">บันทึก</button>
 			</div>

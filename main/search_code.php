@@ -6,7 +6,6 @@
 	include('includes/head.php');
 	include("includes/navbar.php");
 	include("dbcon.php");
-
     if (isset($_POST['search'])) {
         $trip_type = $_POST['goes'];
         $pas_num = $_POST['pas_num'];

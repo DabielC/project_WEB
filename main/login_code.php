@@ -14,6 +14,8 @@
 					$_SESSION['authenticated'] = TRUE;
 					$_SESSION['role'] = $row['role'];
 					$_SESSION['status'] = "เข้าสู่ระบบสำเร็จ";
+					$_SESSION['user_id'] = $row['user_id'];
+
 					if($row['role'] == 'customer' or $row['role'] == 'counter')
 					{
 						header("location: index.php");

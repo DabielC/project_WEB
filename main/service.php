@@ -22,7 +22,7 @@
 		$passenger[] = $temp;
 	}
     $_SESSION['booking']['passenger'] = $passenger;
-    print_r($_SESSION['booking']);
+
 ?>
 
 <div class="flex justify-center mt-10">
