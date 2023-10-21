@@ -4,6 +4,8 @@
 	include('includes/head.php');
 	include("includes/navbar.php");
 	include("dbcon.php");
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	$out_origin = $_GET['out_origin'];
 	$out_dest = $_GET['out_dest'];
 	$out_price = $_GET['out_price'];
@@ -15,6 +17,12 @@
 	$pas_num = $_GET['pas_num'];
 	$trip_type = $_GET['trip_type'];
 	$date_out = $_GET['date_out'];
+}
+else
+{
+	header("location: index.php");
+}
+
 
 	if ($trip_type == 'go-2') {
 		$date_return = $_GET['date_return'];

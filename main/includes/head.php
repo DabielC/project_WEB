@@ -13,3 +13,6 @@
 	<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
+<body class="bg-gray-100">
+
+</body>

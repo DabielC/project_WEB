@@ -18,12 +18,17 @@ body {
   overflow-y: scroll;
 }
 
-.container_seat {
+.container_seat_go {
   perspective: 1000px;
   margin-bottom: 30px;
 }
 
-.seat {
+.container_seat_back {
+  perspective: 1000px;
+  margin-bottom: 30px;
+}
+
+.seat_out {
   background-color: #4e4e4e;
   height: 26px;
   width: 32px;
@@ -33,6 +38,17 @@ body {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+.seat_ret {
+  background-color: #4e4e4e;
+  height: 26px;
+  width: 32px;
+  margin: 3px;
+  font-size: 50px;
+  border: none;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
 .seat_name {
   text-align: center;
   height: 26px;
@@ -48,27 +64,46 @@ body {
   font-size: 20px;
 }
 
-.seat.selected {
+.seat_out.selected {
+  background-color: green;
+}
+.seat_ret.selected {
   background-color: green;
 }
 
-.seat.sold {
+.seat_out.sold {
+  background-color: #acaaaa;
+}
+.seat_ret.sold {
   background-color: #acaaaa;
 }
 
-.seat:nth-of-type(3) {
+.seat_out:nth-of-type(3) {
   margin-right: 18px;
 }
+.seat_ret:nth-of-type(3) {
+  margin-right: 18px;
+}
+
 .seat_name:nth-of-type(4) {
   margin-right: 18px;
 }
 
-.seat:not(.sold):hover {
+.seat_out:not(.sold):hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+.seat_ret:not(.sold):hover {
   cursor: pointer;
   transform: scale(1.2);
 }
 
-.showcase .seat:not(.sold):hover {
+.showcase .seat_out:not(.sold):hover {
+  cursor: default;
+  transform: scale(1);
+}
+
+.showcase .seat_ret:not(.sold):hover {
   cursor: default;
   transform: scale(1);
 }
@@ -97,19 +132,10 @@ body {
   display: flex;
 }
 
-/* .screen {
-  background-color: #fff;
-  height: 120px;
-  width: 100%;
-  margin: 15px 0;
-  transform: rotateX(-48deg);
-  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
-} */
-
-p.text{
+p.text_go{
     margin: 5px 0;
 }
 
-p.text span{
+p.text_go span{
     color: rgb(4, 77, 16);
 }

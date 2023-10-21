@@ -100,7 +100,7 @@
                             </button>
                         </div>
                         <?php }?>
-                        <?php if($_SESSION['booking']['booking']['pas_num'] >= 2 and $_SESSION['booking']['pas_num'] <= 4) {?>
+                        <?php if($_SESSION['booking']['booking']['pas_num'] >= 2 and $_SESSION['booking']['booking']['pas_num'] <= 4) {?>
                         <div>
                             <button class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full"
                                 onclick="selectPlan('แผนครอบครัว', 599)">
@@ -336,7 +336,7 @@
 
 
             <!-- confirm all -->
-            <div class="border p-4 rounded-md shadow-md">
+            <div class="p-4 rounded-md">
                 <div class="flex justify-center mt-4 gap-6 sm:flex flex-col items-center py-2 px-4 md:flex flex-col py-2 px-4 lg:flex flex-col py-2 px-4">
                     <button" id="confirm" class="bg-red-500 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full">
                             ยืนยันการเลือกบริการเสริม
@@ -365,10 +365,12 @@
                 caution1.classList.remove('hidden');
             }
             else if(pickUpTime == "" || dropOffTime == ""){
+                caution1.classList.add('hidden');
                 caution3.classList.remove('hidden');
             }
             else
             {
+                caution1.classList.add('hidden');
                 caution3.classList.add('hidden');
                 caution4.classList.add('hidden');
                 caution5.classList.add('hidden');
@@ -378,6 +380,7 @@
                         let pricePerDay = (500 - (duration - 1)*5);
                         if(duration == 0)
                         {
+                            removeCar();
                             pricePerDay = 0;
                             return;
                     }
