@@ -451,6 +451,21 @@
         </section>
 
 		<div>
-            <button class="my-6 mx-auto rounded-lg bg-red-500 px-6 py-4 text-xl text-white hover:bg-red-700
-            focus:outline-none focus:ring focus:ring-red-300 active:bg-red-800 block">ดำเนินการต่อ</button>
+            <button id="confirm" class="my-6 mx-auto rounded-lg bg-red-500 px-6 py-4 text-xl text-white hover:bg-red-700
+            focus:outline-none active:bg-red-800 block">ดำเนินการต่อ</button>
         </div>
+	</div>
+
+
+	<script></script>
+
+
+<script>
+	$(document).ready(function() {
+			$('#confirm').click(function() {
+				var data = JSON.stringify({amount: <?php echo $sum;?>});
+				window.location.href = "ticket.php?data=" + data;
+			});
+	});
+</script>
+<?php include("includes/footer.php")?>
