@@ -5,9 +5,97 @@
 	include("includes/navbar.php");
 	include("dbcon.php");
 	$seat_data = json_decode($_GET['data']);
-	print_r($seat_data);
 	$_SESSION['booking']['seat'] = $seat_data;
-	print_r($_SESSION['booking']);
+	$booking = $_SESSION['booking']['booking'];
+	$passenger = $_SESSION['booking']['passenger'];
+	$service = $_SESSION['booking']['service'];
+	$seat = $_SESSION['booking']['seat'];
+	$sum = 0;
+	if($service->insurance != [])
+	{
+		$insurance = $service->insurance[1];
+	}
+	else{
+		$insurance = 0;
+	}
+
+	$sum_food = 0;
+	if($service->car_rent != [])
+	{
+		$sum_car = $service->car_rent->totalPrice;
+	}
+	else{
+		$sum_car = 0;
+	}
+
+	$lug_sum = 0;
+	$com_pass = [];
+	for ($i = 0; $i < $booking['pas_num']; $i++) {
+		$temp = [];
+		$temp['out_id'] = $booking['out']['out_id'];
+		if($booking['trip_type'] == 'go-2')
+		{
+			$temp['ret_id'] = $booking['ret']['ret_id'];
+			$temp['backLug'] = $seat->luggage[$i]->backLug;
+			$temp['seat_back'] = $seat->seats[$i + $booking['pas_num']]->seat_back[1];
+			$lug_sum += ($seat->luggage[$i]->goLug + $seat->luggage[$i]->backLug);
+		}
+		else
+		{
+			$lug_sum += ($seat->luggage[$i]->goLug);
+		}
+		$temp['prefix'] = $passenger[$i]['prefix'];
+		$temp['firstname'] = $passenger[$i]['firstname'];
+		$temp['lastname'] = $passenger[$i]['lastname'];
+		$temp['fisrtname_eng'] = $passenger[$i]['firstname_eng'];
+		$temp['lastname_eng'] = $passenger[$i]['lastname_eng'];
+		$temp['email'] = $passenger[$i]['email'];
+		$temp['phone'] = $passenger[$i]['phone'];
+		$temp['DOB'] = $passenger[$i]['DOB'];
+		$temp['nationality'] = $passenger[$i]['nationality'];
+		if($service->insurance != [])
+		{
+			$temp['insurance'] = $service->insurance[0];
+		}
+		else
+		{
+			$temp['insurance'] = '';
+		}
+
+		$temp_food = [];
+		foreach($service->food[0] as $food){
+			if($food[2] == $passenger[$i]['firstname'])
+			{
+				array_push($temp_food, $food[0]);
+				$sum_food += $food[1];
+			}
+		}
+		$temp['food'] = $temp_food;
+		if($service->car_rent != []){
+			$temp['pickUpDate'] = $service->car_rent->pickUpDate;
+			$temp['pickUpTime'] = $service->car_rent->pickUpTime;
+			$temp['dropOffDate'] = $service->car_rent->dropOffDate;
+			$temp['dropOffTime'] = $service->car_rent->dropOffTime;
+		}
+
+		$temp['goLug'] = $seat->luggage[$i]->goLug;
+		$temp['seat_go'] = $seat->seats[$i]->seat_go[1];
+
+		array_push($com_pass, $temp);
+	}
+
+	if($booking['trip_type'] == 'go-2')
+	{
+		$sum = $booking['out']['out_price']*$booking['pas_num']
+		+ $booking['ret']['ret_price']*$booking['pas_num']
+		+ $insurance + $sum_food + $sum_car + $lug_sum*30;
+	}
+	else
+	{
+		$sum = $booking['out']['out_price']*$booking['pas_num']
+		+ $insurance + $sum_food + $sum_car + $lug_sum*30;
+	}
+
 ?>
 
 <div class="container mx-auto p-8">
@@ -18,37 +106,56 @@
             <!-- ข้อมูลขาไป -->
             <div class=" justify-between items-center sm:flex">
                 <div class="flex-1 text-center mx-auto">
-                    <h3 class="text-orange-500 text-xl font-semibold mb-4">BKK to JFK</h3>
-                    <p class="font-sarabun">ขาไป วันเสาร์ที่ 23 กย. 2023<br>เวลา 07:00 ถึง 08:10</p>
+                    <h3 class="text-orange-500 text-xl font-semibold mb-4"><?php echo $booking['out']['out_origin'];?> to <?php echo $booking['out']['out_dest'];?></h3>
+                    <p class="font-sarabun">ขาไป <?php echo $booking['out']['date_out'];?><br>เวลา <?php echo $booking['out']['out_dep'];?> ถึง <?php echo $booking['out']['out_arv'];?></p>
                     <br>
-                    <h3 class="text-orange-500 text-xl font-semibold mb-4">JFK to BKK</h3>
-                    <p class="font-sarabun">ขากลับ วันศุกร์ที่ 29 กย. 2023 <br>เวลา 07:00 ถึง 08:10</p>
-                </div>
+					<?php if($booking['trip_type'] == 'go-2'){?>
+                    	<h3 class="text-orange-500 text-xl font-semibold mb-4"><?php echo $booking['ret']['ret_origin'];?> to <?php echo $booking['ret']['ret_dest'];?></h3>
+                    	<p class="font-sarabun">ขากลับ <?php echo $booking['ret']['date_return'];?> <br>เวลา <?php echo $booking['ret']['ret_dep'];?> ถึง <?php echo $booking['ret']['ret_arv'];?></p>
+					<?php }?>
+				</div>
                 <div class="flex-1">
+				<?php if($booking['trip_type'] == 'go-2'){?>
                     <div class="text-center flex justify-between mb-4 max-sm:mt-5">
                         <div class="font-semibold">ราคาตั๋วไป-กลับ</div>
-                        <div class="text-right">1998</div>
+                        <div class="text-right"><?php echo $booking['out']['out_price'] + $booking['ret']['ret_price'];?> บาท</div>
+                    </div>
+				<?php }
+				else{?>
+					<div class="text-center flex justify-between mb-4 max-sm:mt-5">
+                        <div class="font-semibold">ราคาตั๋วขาไป</div>
+                        <div class="text-right"><?php echo $booking['out']['out_price'];?>  บาท</div>
+                    </div>
+				<?php }?>
+
+                    <div class="text-center flex justify-between mb-4">
+                        <div class="font-semibold">จำนวนผู้โดยสาร</div>
+                        <div class="text-right "><?php echo $booking['pas_num'];?> คน</div>
                     </div>
                     <div class="text-center flex justify-between mb-4">
                         <div class="font-semibold">เพิ่มน้ำหนักสัมภาระ</div>
-                        <div class="text-right ">0</div>
+                        <div class="text-right "><?php echo $lug_sum;?> กิโลกรัม</div>
                     </div>
                     <div class="text-center flex justify-between mb-4">
                         <div class="font-semibold ">เพิ่มประกันการเดินทาง</div>
-                        <div class="text-right ">0</div>
+                        <div class="text-right "><?php echo $insurance;?> บาท</div>
                     </div>
                     <div class="text-center flex justify-between mb-4">
                         <div class="font-semibold ">เพิ่มอาหารบนเครื่องบิน</div>
-                        <div class="text-right ">0</div>
+                        <div class="text-right "><?php echo $sum_food;?> บาท</div>
+                    </div>
+                    <div class="text-center flex justify-between mb-4">
+                        <div class="font-semibold ">เพิ่มรถเช่า</div>
+                        <div class="text-right "><?php echo $sum_car;?> บาท</div>
                     </div>
                     <div class="text-center flex justify-between">
                         <div class="font-semibold ">รวมทั้งหมด</div>
-                        <div class="text-right ">1998 THB</div>
+                        <div class="text-right "><?php echo $sum;?> บาท</div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- ---------------------------------------------------------------- -->
+        <!-- Bank---------------------------------------------------------------- -->
         <section class="max-w-[900px] mx-auto px-8 pt-14">
             <h1 class="text-2xl  font-bold text-gray-700 mb-4">
                 ช่องทางการชำระเงิน</h1>
@@ -78,8 +185,8 @@
                 <label for="payment" class="relative w-full cursor-pointer">
                     <input class="peer hidden" type="button" id="payment" name="payment">
                     <div class="payment-content border-3 hover:border-blue-500 items-center relative
-gap-2 h-28 w-full bg-white border-2 border-gray-200 rounded-md transition
-peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
+					gap-2 h-28 w-full bg-white border-2 border-gray-200 rounded-md transition
+						peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
                         <div class="h-24 w-full text-center ">
                             <div class="h-4/5 text-center">
                                 <img class="h-24 mx-auto p-7 pb-8"
@@ -87,7 +194,7 @@ peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 
                             </div>
                             <div class="h-1/5">
                                 <p class="payment-text text-center text-sm
-            opacity-70 font-medium">Visa</p>
+            		opacity-70 font-medium">Visa</p>
                             </div>
                         </div>
                     </div>
@@ -96,8 +203,8 @@ peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 
                 <label for="payment" class="relative w-full cursor-pointer">
                     <input class="peer hidden" type="button" id="payment" name="payment">
                     <div class="payment-content border-3 hover:border-blue-500 items-center relative
-                gap-2 h-28 w-full bg-white border-2 border-gray-200 rounded-md transition
-              peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
+                		gap-2 h-28 w-full bg-white border-2 border-gray-200 rounded-md transition
+              		peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
                         <div class="h-24 w-full text-center ">
                             <div class="h-4/5 text-center">
                                 <img class="h-20 mx-auto p-2"
@@ -115,7 +222,7 @@ peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 
                     <input class="peer hidden" type="button" id="payment" name="payment">
                     <div class="payment-content border-3 hover:border-blue-500 items-center relative
                     gap-2 h-28 w-full bg-white border-2 border-gray-200 rounded-md transition
-                  peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
+                  	peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
                         <div class="h-24 w-full text-center ">
                             <div class="h-4/5 text-center">
                                 <img class="h-24 mx-auto "
@@ -132,8 +239,8 @@ peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 
                 <label for="payment" class="relative w-full cursor-pointer">
                     <input class="peer hidden" type="button" id="payment" name="payment">
                     <div class="payment-content border-3 hover:border-blue-500 items-center relative
-                gap-2 h-28 w-full bg-white border-2 border-gray-200 rounded-md transition
-              peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
+                		gap-2 h-28 w-full bg-white border-2 border-gray-200 rounded-md transition
+              			peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
                         <div class="h-24 w-full text-center ">
                             <div class="h-4/5 text-center">
                                 <img class="h-20 mx-auto p-4 pt-6"
@@ -151,7 +258,7 @@ peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 
                     <input class="peer hidden" type="button" id="payment" name="payment">
                     <div class="payment-content border-3 hover:border-blue-500 items-center relative
                     gap-2 h-28 w-full bg-white border-2 border-gray-200 rounded-md transition
-                  peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
+                  	peer-checked:border-blue-500 peer-checked:shadow-lg peer-checked:-translate-y-1 ">
                         <div class="h-24 w-full text-center ">
                             <div class="h-4/5 text-center">
                                 <img class="h-24 mx-auto p-5 pb-6"
