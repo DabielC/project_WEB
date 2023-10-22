@@ -5,50 +5,6 @@
 	include("includes/navbar.php");
 	include("dbcon.php");
 
-	use PHPMailer\PHPMailer\PHPMailer;
-	use PHPMailer\PHPMailer\SMTP;
-	use PHPMailer\PHPMailer\Exception;
-
-	//Load Composer's autoloader
-	require 'vendor/autoload.php';
-
-	function sendemail_verify($name, $email)
-	{
-		$mail = new PHPMailer(true);
-
-
-		$mail->isSMTP();                                            //Send using SMTP
-		$mail->Host       = 'smtp.gmail.com';
-		$mail->SMTPAuth = true;                                //Enable SMTP authentication
-		$mail->Username   = '65070009@kmitl.ac.th';                     //SMTP username
-		$mail->Password   = 'sdqmxzopstbueumn';
-
-		$mail->SMTPSecure = "tls";            //Enable implicit TLS encryption
-		$mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-		//Recipients
-		$mail->setFrom('65070009@kmitl.ac.th', $name);
-		$mail->addAddress($email);
-
-		//Content
-		$mail->isHTML(true);                                  //Set email format to HTML
-		$mail->Subject = 'DATA Airline';
-
-		$email_template = "
-			<h2>DATA Airline</h2>
-			<h5>เพื่อยืนยันอีเมลคลิ๊กลิ้งด้านล่างนี้</h5>
-			<br>
-			<a href='http://localhost/project_web/main/verify-email.php?token=$verify_token'>คลิ๊กที่นี่</a>
-		";
-
-		$mail->Body = $email_template;
-		$mail->send();
-		// echo 'Message has been sent';
-	}
-
-
-
-
 	if(isset($_GET['data']))
 	{
 		$amount = json_decode($_GET['data']);
@@ -238,8 +194,6 @@
 
 		}
 	}
-
-	$db->close();
 ?>
 
 <div class="w-screen h-screen flex flex-col">
@@ -259,7 +213,7 @@
 				<div class="h-full py-8 px-10 bg-white flex-grow rounded-r-3xl flex flex-col shadow-md">
 					<div class="flex w-full justify-between items-center">
 						<div class="flex flex-col items-center">
-							<span class="text-4xl font-bold"><?php echo $booking['out']['out_dest']?></span>
+							<span class="text-4xl font-bold"><?php echo $booking['out']['out_origin']?></span>
 							<span class="text-zinc-500 text-sm"><?php echo $airport_table['out_origin']?></span>
 						</div>
 						<div class="flex flex-col flex-grow items-center px-10">

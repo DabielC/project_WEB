@@ -27,21 +27,21 @@
 				{
 					$_SESSION['status'] = "ยืนยันอีเมลสำเร็จ";
 					header("location: login.php");
-					exit(0);
+					exit();
 				}
 				else
 				{
 					$_SESSION['status'] = "Verification Failed";
 					$db->lastErrorMsg();
-					// header("location: login.php");
-					// exit(0);
+					header("location: login.php");
+					exit();
 				}
 			}
 			else if ($row['verify_status'] == 1)
 			{
 				$_SESSION['status'] = "Email already Verified. Please Login";
 				header("location: login.php");
-				exit(0);
+				exit();
 			}
 		}
 		else
