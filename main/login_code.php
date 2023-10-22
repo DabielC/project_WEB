@@ -8,6 +8,7 @@
 		$login_query = "SELECT * FROM users WHERE email='$email' AND password='$password' LIMIT 1";
 		$login_query_run = $db->query($login_query);
 		$row = $login_query_run->fetchArray(SQLITE3_ASSOC);
+
 		if($login_query_run and !empty($row)){
 			if ($row['verify_status'] == 1)
 				{

@@ -35,7 +35,7 @@
 			<h2>DATA Airline</h2>
 			<h5>เพื่อยืนยันอีเมลคลิ๊กลิ้งด้านล่างนี้</h5>
 			<br>
-			<a href='http://localhost/project_web/main/verify-email.php?token=$verify_token'>คลิ๊กที่นี่</a>
+			<a href='http://localhost/project_web/project_WEB/main/verify-email.php?token=$verify_token'>คลิ๊กที่นี่</a>
 		";
 
 		$mail->Body = $email_template;
