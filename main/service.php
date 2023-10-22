@@ -30,7 +30,7 @@
             <h2 class="text-2xl font-bold mb-6">เลือกประกันการเดินทาง</h2>
 
             <!--service-->
-            <div class="border p-4 rounded-md shadow-md">
+            <div class="border p-4 rounded-md shadow-md bg-white">
                 <!-- carousel -->
 				<div class="relative mb-10">
 						<div class="slides-container h-auto flex snap-x snap-mandatory sm:overflow-hidden overflow-x-auto space-x-2 rounded scroll-smooth before:w-[20%] before:shrink-0 after:w-[20%] after:shrink-0 md:before:w-0 md:after:w-0">
@@ -120,7 +120,7 @@
 
                     <!-- del -->
                     <div class="flex justify-center mt-4">
-                        <div class="max-w-md p-4 bg-white rounded-lg shadow-md w-full sm:w-2/3">
+                        <div class="max-w-md p-4 bg-white rounded-lg bg-white bg-white shadow-md w-full sm:w-2/3">
                             <h2 class="text-lg font-bold mb-2 text-center ">สรุปรายการ</h2>
                             <div class="text-xl font-semibold mb-2 text-center text-green-600" id="selectedPlan"></div>
                             <div id="totalPrice" class="text-center font-bold mt-4">ราคาทั้งหมด: 0 THB</div>
@@ -141,15 +141,15 @@
             <h2 class="text-2xl font-bold my-10 mx-10">เลือกอาหารล่วงหน้า</h2>
 
             <!-- foode -->
-            <div class="border p-4 rounded-md shadow-md">
+            <div class="border p-4 rounded-md bg-white shadow-md">
                 <h2 class="text-xl font-bold">รายการอาหาร</h2>
                 <div class="text-gray-600 mb-2">เพิ่มอาหารระหว่างการเดินทางของคุณ
 
                     <div class="flex justify-center mt-4">
-                            <div class="max-w-md p-4 bg-white rounded-lg shadow-md w-full sm:w-2/3">
+                            <div class="max-w-md p-4 bg-white rounded-lg bg-white shadow-md w-full sm:w-2/3">
                                 <h2 class="text-lg font-bold mb-2 text-center">สรุปรายการ</h2>
                                 <h2 class="text-xl text-center text-red-500 font-semibold mb-4 hidden" id="caution">กรุณาเลือกผู้โดยสาร</h2>
-                                <select id="users" name="users" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
+                                <select id="users" name="users" class="w-full h-10 rounded-md focus:outline-none hover:bg-gray-200 px-3 block w-full rounded-md border-0 py-1.5 text-gray-900  bg-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6" required>
                                     <option value="" selected disabled>กรุณาเลือกผู้โดยสารสำหรับเลือกอาหาร</option>
                                     <?php for($i = 0; $i < $_SESSION['booking']['booking']['pas_num']; $i++){?>
                                         <option value="<?php echo $_SESSION['booking']['passenger'][$i]["firstname"]; ?>"> <?php echo 'คุณ : ' . $_SESSION['booking']['passenger'][$i]["firstname"]; ?> </option>
@@ -174,7 +174,7 @@
                     <div class="flex flex-wrap justify-center">
                             <!-- food -->
                             <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
-                                <div class="border p-4 rounded-md shadow-md">
+                                <div class="border p-4 rounded-md shadow-md bg-white">
                                     <h2 class="text-lg text-center font-bold mb-2">ซี่โครงราดซอส</h2>
                                     <img src="picture/A8.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
@@ -189,7 +189,7 @@
                                 </div>
                             </div>
                             <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
-                                <div class="border p-4 rounded-md shadow-md">
+                                <div class="border p-4 rounded-md shadow-md bg-white">
                                     <h2 class="text-lg text-center font-bold mb-2">ข้าวต้มทรงเครื่อง</h2>
                                     <img src="picture/A2.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
@@ -203,7 +203,7 @@
                                 </div>
                             </div>
                             <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
-                                <div class="border p-4 rounded-md shadow-md">
+                                <div class="border p-4 rounded-md shadow-md bg-white">
                                     <h2 class="text-lg text-center font-bold mb-2">มัสมั่นเนื้อ</h2>
                                     <img src="picture/A9.png" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
@@ -217,7 +217,7 @@
                                 </div>
                             </div>
                             <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
-                                <div class="border p-4 rounded-md shadow-md">
+                                <div class="border p-4 rounded-md shadow-md bg-white">
                                     <h2 class="text-lg text-center font-bold mb-2">ขนมครกทรงเครื่อง</h2>
                                     <img src="picture/A4.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
@@ -231,7 +231,7 @@
                                 </div>
                             </div>
                             <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
-                                <div class="border p-4 rounded-md shadow-md">
+                                <div class="border p-4 rounded-md shadow-md bg-white">
                                     <h2 class="text-lg text-center font-bold mb-2">ออมเล็ตราดซอส</h2>
                                     <img src="picture/A5.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
@@ -245,7 +245,7 @@
                                 </div>
                             </div>
                             <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
-                                <div class="border p-4 rounded-md shadow-md">
+                                <div class="border p-4 rounded-md shadow-md bg-white">
                                     <h2 class="text-lg text-center font-bold mb-2">สเต็กซี่โครงราดซอส</h2>
                                     <img src="picture/A2.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
@@ -268,7 +268,7 @@
 
             <!-- car rent -->
             <h2 class="text-2xl font-bold mb-6 mt-10 my-10 mx-10">บริการรถเช่า</h2>
-            <div class="flex justify-center border p-4 rounded-md shadow-md">
+            <div class="flex justify-center border p-4 rounded-md shadow-md bg-white">
                 <div class="w-full max-w-md">
                     <div class="text-gray-600 mb-2 text-center font-bold">เพิ่มบริการรถเช่า</div>
 
@@ -309,7 +309,7 @@
 
                     <!-- Summary section for car rental -->
                     <div id="carRentalSummary" class="flex justify-center mt-4">
-                        <div class="max-w-md p-6 bg-white rounded-lg shadow-md w-full">
+                        <div class="max-w-md p-6 bg-white rounded-lg shadow-md bg-white w-full">
 
                             <h2 class="text-lg font-bold mb-2 text-center">สรุปรายการรถเช่า</h2>
 

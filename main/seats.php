@@ -14,17 +14,26 @@
 
 	if(isset($_SESSION['booking']['booking']['ret']))
 	{
-		$sql_ret = "SELECT seat_no FROM passenger
-		WHERE flight_id = '" . $_SESSION['booking']['booking']['ret']['ret_id'] . "'";
+		$sql_ret = "
+		SELECT seat_no FROM passenger
+		WHERE flight_id = " . $_SESSION['booking']['booking']['ret']['ret_id'];
 		$ret_ret = $db->query($sql_ret);
 		$seat_ret_table = [];
 		while($row_ret = $ret_ret->fetchArray(SQLITE3_ASSOC))
 		{
 			array_push($seat_ret_table, $row_ret);
 		}
+
+		$seat_num_ret = "SELECT num_of_seat FROM flights
+				WHERE flight_id = " . $_SESSION['booking']['booking']['ret']['ret_id'];
+		$ret_num_ret = $db->query($seat_num_ret);
+		$num_ret = $ret_num_ret->fetchArray(SQLITE3_ASSOC);
+
 	}
+
+
 	$sql_out = "SELECT seat_no FROM passenger
-			WHERE flight_id = '" . $_SESSION['booking']['booking']['out']['out_id'] . "'";
+			WHERE flight_id = " . $_SESSION['booking']['booking']['out']['out_id'];
 	$ret_out = $db->query($sql_out);
 	$seat_out_table = [];
 	while($row_out = $ret_out->fetchArray(SQLITE3_ASSOC))
@@ -32,12 +41,16 @@
 		array_push($seat_out_table, $row_out);
 	}
 
+	$seat_num_out = "SELECT num_of_seat FROM flights
+				WHERE flight_id = " . $_SESSION['booking']['booking']['out']['out_id'];
+	$ret_num_out = $db->query($seat_num_out);
+	$num_out = $ret_num_out->fetchArray(SQLITE3_ASSOC);
 
 ?>
 <link rel="stylesheet" href="static/seat.css">
 
-<div class="flex flex-col items-center justify-center bg-white text-gray-800">
-	<div class="border p-4 rounded-md shadow-md m-5">
+<div class="flex flex-col items-center justify-center bg-gray-100 text-gray-800">
+	<div class="border p-4 rounded-md shadow-md bg-white m-5">
 			<h1 class="text-3xl font-semibold mb-6 text-left text-color-primary">เพิ่มน้ำหนักสัมภาระ</h1>
 			<div class="p-4 space-y-4 h-40 overflow-x-hidden overflow-y-scroll w-auto m-5">
 
@@ -73,8 +86,8 @@
 		</div>
 </div>
 
-	<div class="flex flex-col items-center justify-center bg-white text-gray-800">
-		<div class="border p-4 rounded-md shadow-md m-5 text-center">
+	<div class="flex flex-col items-center justify-center bg-gray-100 text-gray-800">
+		<div class="border p-4 rounded-md bg-white shadow-md m-5 text-center">
 		<h1 class="text-3xl font-semibold mb-6 text-left text-color-primary">ที่นั่งขาไป</h1>
 			<ul class="showcase">
 				<li>
@@ -103,7 +116,7 @@
 				</div>
 				<div class="scroll">
 					<?php
-					for($i = 1; $i < 21; $i++){
+					for($i = 1; $i < ($num_out['num_of_seat']/6) + 1; $i++){
 						?>
 					<div class="row">
 						<div class="seat_number"><?php echo $i;?></div>
@@ -143,8 +156,8 @@
 
 	<?php if($_SESSION['booking']['booking']['trip_type'] == "go-2"){?>
 
-	<div class="flex flex-col items-center justify-center bg-white text-gray-800">
-		<div class="border p-4 rounded-md shadow-md m-5 text-center">
+	<div class="flex flex-col items-center justify-center bg-gray-100 text-gray-800">
+		<div class="border p-4 rounded-md shadow-md bg-white m-5 text-center">
 		<h1 class="text-3xl font-semibold mb-6 text-left text-color-primary">ที่นั่งขากลับ</h1>
 			<ul class="showcase">
 				<li>
@@ -173,7 +186,7 @@
 				</div>
 				<div class="scroll">
 					<?php
-					for($i = 1; $i < 21; $i++){
+					for($i = 1; $i < ($num_ret['num_of_seat']/6) + 1; $i++){
 						?>
 					<div class="row">
 						<div class="seat_number"><?php echo $i;?></div>

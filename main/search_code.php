@@ -60,7 +60,7 @@
                 }
                 ?>
             </h4>
-            <div class="w-full border p-6 mt-10 mx-10 shadow-md">
+            <div class="w-full border p-6 mt-10 mx-10 shadow-md bg-white">
                 <div class="flex items-start">
                     <div class="border bg-red-500 pr-10 px-6 py-6 rounded-lg">
                         <h2 class="text-3xl font-semibold text-white"><?php echo $from; ?> to <?php echo $to; ?></h2>
@@ -84,7 +84,7 @@
 
 
             <h2 class="text-3xl font-semibold mb-6 mt-10 mx-10"><?php echo $from; ?> to <?php echo $to; ?> ขาไป</h2>
-            <div id="outbound-flights" class="w-full flex flex-col border p-6 mt-10 mx-10 shadow-md space-y-4">
+            <div id="outbound-flights" class="w-full flex flex-col border p-6 mt-10 mx-10 shadow-md space-y-4 bg-white">
 
             <?php
                 for($i = 0; $i < count($table_go); $i++){
@@ -133,7 +133,7 @@
             <?php if($trip_type == 'go-2'){ ?>
                 <h2 class="text-3xl font-semibold mb-6 mt-10 mx-10"><?php echo $to; ?> to <?php echo $from; ?> ขากลับ</h2>
 
-                <div id="return-flights" class="w-full flex flex-col border p-6 mt-10 mx-10 shadow-md space-y-4">
+                <div id="return-flights" class="w-full flex flex-col border p-6 mt-10 mx-10 shadow-md bg-white space-y-4">
 
                 <?php
                 for($i = 0; $i < count($table_return); $i++){
@@ -187,7 +187,7 @@
 
         <!-- Right Div (1:4) -->
         <div class="w-1/4 h-1/4 pl-10 flex justify-center">
-            <div class="border p-6 shadow-md mt-10 mx-10 w-full">
+            <div class="border p-6 shadow-md bg-white mt-10 mx-10 w-full">
                 <h2 class="text-xl font-semibold mb-4">สรุปการจอง</h2>
                 <h2 class="text-xl text-red-500 font-semibold mb-4 hidden" id="caution">กรุณาเลือกเที่ยวบิน</h2>
                 <h2 class="text-xl text-red-500 font-semibold mb-4 hidden" id="caution1">วันเดินทางกลับควรมากกว่าหรือเท่ากับวันเดินทางออก</h2>

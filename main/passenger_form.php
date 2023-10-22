@@ -72,7 +72,7 @@ else
 
 	<div class="flex justify-center mt-10 sm:flex flex-col items-center my-10 mx-10">
         <div class="w-2/4">
-            <div class="border p-6 shadow-md">
+            <div class="border p-6 shadow-md bg-white">
                 <h2 class="text-2xl font-bold mb-2">ขาไป : <?php echo $out_origin;?> to <?php echo $out_dest;?></h2>
                 <div class="text-lg text-gray-800 mb-2">รายละเอียดเที่ยวบิน</div>
                 <div class="text-gray-600 mb-2">เวลาที่ออกเดินทาง : <?php echo $out_dep;?></div>
@@ -83,7 +83,7 @@ else
         </div>
 		<?php if($trip_type == 'go-2') {?>
 			<div class="w-2/4">
-				<div class="border p-6 my-10 shadow-md">
+				<div class="border p-6 my-10 shadow-md bg-white">
 					<h2 class="text-2xl font-bold mb-2">ขากลับ : <?php echo $ret_origin;?> to <?php echo $ret_dest;?></h2>
 					<div class="text-lg text-gray-800 mb-2">รายละเอียดเที่ยวบิน</div>
                 	<div class="text-gray-600 mb-2">เวลาที่เดินทางกลับ : <?php echo $ret_dep;?></div>
@@ -98,11 +98,11 @@ else
         <form id="passenger_form" action="service.php" method="POST" class="flex flex-col gap-4" novalidate>
 		<div class="h-96 overflow-x-hidden overflow-y-scroll w-auto">
 		<?php for($i = 1; $i < $pas_num+1; $i++) { ?>
-			<div class="mx-auto my-10 border p-6 shadow-md w-2/4  flex flex-col">
+			<div class="mx-auto my-10 border p-6 shadow-md bg-white w-2/4  flex flex-col">
 				<h2 class="text-2xl font-semibold m-6 text-center">กรุณากรอกข้อมูลผู้โดยสารคนที่ <?php echo $i;?></h2>
 				<div class="mb-4">
 					<label for="prefix_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">คำนำหน้าชื่อ</label>
-					<select id="prefix_<?php echo $i; ?>" name="prefix_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+					<select id="prefix_<?php echo $i; ?>" name="prefix_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white bg-white bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<option value="" selected disabled>Please select</option>
 						<option value="Mr.">Mr.</option>
 						<option value="Mrs.">Mrs.</option>
@@ -116,7 +116,7 @@ else
 				<div>
 					<label for="firstname_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">ชื่อจริง</label>
 					<div class="mt-2">
-						<input id="firstname_<?php echo $i; ?>" name="firstname_<?php echo $i; ?>" type="text" autocomplete="given-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<input id="firstname_<?php echo $i; ?>" name="firstname_<?php echo $i; ?>" type="text" autocomplete="given-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<p id="firstname-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
@@ -124,7 +124,7 @@ else
 				<div>
 					<label for="lastname_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">นามสกุล</label>
 					<div class="mt-2">
-						<input id="lastname_<?php echo $i; ?>" name="lastname_<?php echo $i; ?>" type="text" autocomplete="family-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<input id="lastname_<?php echo $i; ?>" name="lastname_<?php echo $i; ?>" type="text" autocomplete="family-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<p id="lastname-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
@@ -132,7 +132,7 @@ else
 				<div>
 					<label for="firstname_eng_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">ชื่อจริงภาษาอังกฤษ</label>
 					<div class="mt-2">
-						<input id="firstname_eng_<?php echo $i; ?>" name="firstname_eng_<?php echo $i; ?>" type="text" autocomplete="given-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<input id="firstname_eng_<?php echo $i; ?>" name="firstname_eng_<?php echo $i; ?>" type="text" autocomplete="given-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<p id="firstname_eng-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
@@ -140,7 +140,7 @@ else
 				<div>
 					<label for="lastname_eng_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">นามสกุลภาษาอังกฤษ</label>
 					<div class="mt-2">
-						<input id="lastname_eng_<?php echo $i; ?>" name="lastname_eng_<?php echo $i; ?>" type="text" autocomplete="family-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<input id="lastname_eng_<?php echo $i; ?>" name="lastname_eng_<?php echo $i; ?>" type="text" autocomplete="family-name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<p id="lastname_eng-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
@@ -148,7 +148,7 @@ else
 				<div>
 					<label for="email_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">อีเมล</label>
 					<div class="mt-2">
-						<input id="email_<?php echo $i; ?>" name="email_<?php echo $i; ?>" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<input id="email_<?php echo $i; ?>" name="email_<?php echo $i; ?>" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<p id="email-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
@@ -156,7 +156,7 @@ else
 				<div>
 					<label for="phone_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">โทรศัพท์</label>
 					<div class="mt-2">
-						<input id="phone_<?php echo $i; ?>" name="phone_<?php echo $i; ?>" type="tel" autocomplete="tel" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<input id="phone_<?php echo $i; ?>" name="phone_<?php echo $i; ?>" type="tel" autocomplete="tel" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<p id="phone-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 					</div>
 				</div>
@@ -164,14 +164,14 @@ else
 				<div>
 					<label for="dob_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">วันเกิด</label>
 					<div class="mt-2">
-						<input type="date" id="DOB_<?php echo $i; ?>" name="DOB_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+						<input type="date" id="DOB_<?php echo $i; ?>" name="DOB_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 							<p id="DOB-error_<?php echo $i; ?>" class="text-red-600 text-xs mt-1"></p>
 						</div>
 				</div>
 
 				<div class="mb-4">
 					<label for="nationality_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">สัญชาติ</label>
-					<select id="nationality_<?php echo $i; ?>" name="nationality_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
+					<select id="nationality_<?php echo $i; ?>" name="nationality_<?php echo $i; ?>" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm bg-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-950 sm:text-sm sm:leading-6">
 						<option value="" disabled selected>โปรดเลือกสัญชาติ</option>
 						<option value="thailand">ไทย</option>
 						<option value="usa">สหรัฐอเมริกา</option>
@@ -374,7 +374,7 @@ else
 			</div>
 			<?php } ?>
 			</div>
-			<div class="mx-auto my-10 border p-6 shadow-md w-2/4 flex flex-col">
+			<div class="mx-auto my-10 p-6 w-2/4 flex flex-col">
 				<button type="submit" name="confirm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">บันทึก</button>
 			</div>
 		</form>

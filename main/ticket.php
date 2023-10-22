@@ -4,6 +4,51 @@
 	include('includes/head.php');
 	include("includes/navbar.php");
 	include("dbcon.php");
+
+	use PHPMailer\PHPMailer\PHPMailer;
+	use PHPMailer\PHPMailer\SMTP;
+	use PHPMailer\PHPMailer\Exception;
+
+	//Load Composer's autoloader
+	require 'vendor/autoload.php';
+
+	function sendemail_verify($name, $email)
+	{
+		$mail = new PHPMailer(true);
+
+
+		$mail->isSMTP();                                            //Send using SMTP
+		$mail->Host       = 'smtp.gmail.com';
+		$mail->SMTPAuth = true;                                //Enable SMTP authentication
+		$mail->Username   = '65070009@kmitl.ac.th';                     //SMTP username
+		$mail->Password   = 'sdqmxzopstbueumn';
+
+		$mail->SMTPSecure = "tls";            //Enable implicit TLS encryption
+		$mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+		//Recipients
+		$mail->setFrom('65070009@kmitl.ac.th', $name);
+		$mail->addAddress($email);
+
+		//Content
+		$mail->isHTML(true);                                  //Set email format to HTML
+		$mail->Subject = 'DATA Airline';
+
+		$email_template = "
+			<h2>DATA Airline</h2>
+			<h5>เพื่อยืนยันอีเมลคลิ๊กลิ้งด้านล่างนี้</h5>
+			<br>
+			<a href='http://localhost/project_web/main/verify-email.php?token=$verify_token'>คลิ๊กที่นี่</a>
+		";
+
+		$mail->Body = $email_template;
+		$mail->send();
+		// echo 'Message has been sent';
+	}
+
+
+
+
 	if(isset($_GET['data']))
 	{
 		$amount = json_decode($_GET['data']);
@@ -107,14 +152,94 @@
 		foreach($pass_id as $id)
 		{
 			$payment = "
-					INSERT INTO payment(user_id, passenger_id, method, amount)
-					VALUE ($user_id, ".$id['passenger_id'].", '".$amount->method."', ".$amount->amount.");";
-			
+					INSERT INTO payment (user_id, passenger_id, method, amount)
+					VALUES ($user_id, ".$id['passenger_id'].", '".$amount->method."', ".$amount->amount.");";
+			$ret_pay = $db->exec($payment);
 		}
 
 	}
+	else
+	{
+		for($i = 0; $i < $booking['pas_num']; $i++)
+		{
+			$insert_out ="
+			INSERT INTO passenger (flight_id, phone,
+			DOB, first_name, last_name,
+			firstname_eng, lastname_eng,
+			prefix, nationality, insurance,
+				food, car_rent, seat_no, lug)
+			VALUES (". $pass[$i]['out_id'] . ", '". $pass[$i]['phone']."',
+					'".$pass[$i]['DOB']."', '".$pass[$i]['firstname']."','".$pass[$i]['lastname']."',
+					'".$pass[$i]['fisrtname_eng']."', '".$pass[$i]['lastname_eng']."',
+					'".$pass[$i]['prefix']."','".$pass[$i]['nationality']."', '".$pass[$i]['insurance']."',
+					'".implode(', ', $pass[$i]['food'])."','".implode(', ', (array) $_SESSION['booking']['service']->car_rent)."',
+					'".$pass[$i]['seat_go']."', '".$pass[$i]['goLug']."');
+			";
+			$ret_out = $db->exec($insert_out);
+			if($booking['trip_type'] == 'go-2')
+			{
+				$insert_ret ="
+				INSERT INTO passenger (flight_id, phone,
+				DOB, first_name, last_name,
+				firstname_eng, lastname_eng,
+				prefix, nationality, insurance,
+					food, car_rent, seat_no, lug)
+				VALUES (". $pass[$i]['ret_id'] . ", '". $pass[$i]['phone']."',
+						'".$pass[$i]['DOB']."', '".$pass[$i]['firstname']."','".$pass[$i]['lastname']."',
+						'".$pass[$i]['fisrtname_eng']."', '".$pass[$i]['lastname_eng']."',
+						'".$pass[$i]['prefix']."','".$pass[$i]['nationality']."', '".$pass[$i]['insurance']."',
+						'".implode(', ', $pass[$i]['food'])."','".implode(', ', (array) $_SESSION['booking']['service']->car_rent)."',
+						'".$pass[$i]['seat_go']."', '".$pass[$i]['goLug']."');
+				";
+				$ret_ret = $db->exec($insert_ret);
+			}
+			// echo $insert_out;
+			// echo $insert_ret;
+		}
 
+		$pass_id_out = "
+				SELECT passenger_id FROM passenger
+				WHERE flight_id =" . $booking['out']['out_id'];
+		// print_r($booking);
+		$query_id = $db->query($pass_id_out);
+		$pass_id_out = [];
+		while($row = $query_id->fetchArray(SQLITE3_ASSOC))
+		{
+			array_push($pass_id_out, $row);
+		}
+		// print_r($pass_id_out);
+		foreach($pass_id_out as $id)
+		{
+			$payment_out = "
+					INSERT INTO payment (passenger_id, method, amount)
+					VALUES (".$id['passenger_id'].", '".$amount->method."', ".$amount->amount.");";
+			$out_pay = $db->exec($payment_out);
+		}
 
+		if($booking['trip_type'] == 'go-2')
+		{
+			$pass_id_ret = "
+				SELECT passenger_id FROM passenger
+				WHERE  flight_id =" . $booking['ret']['ret_id'];
+			$query_id = $db->query($pass_id_ret);
+			$pass_id_ret = [];
+			while($row = $query_id->fetchArray(SQLITE3_ASSOC))
+			{
+				array_push($pass_id_ret, $row);
+			}
+			// print_r($pass_id_ret);
+			foreach($pass_id_ret as $id)
+			{
+				$payment_ret = "
+						INSERT INTO payment (passenger_id, method, amount)
+						VALUES (".$id['passenger_id'].", '".$amount->method."', ".$amount->amount.");";
+				$ret_pay = $db->exec($payment_ret);
+			}
+
+		}
+	}
+
+	$db->close();
 ?>
 
 <div class="w-screen h-screen flex flex-col">
