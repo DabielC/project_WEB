@@ -4,7 +4,16 @@
 	include('includes/head.php');
 	include("includes/navbar.php");
 	include("dbcon.php");
-	$amount = json_decode($_GET['data']);
+	if(isset($_GET['data']))
+	{
+		$amount = json_decode($_GET['data']);
+		$_SESSION['ticket'] = json_decode($_GET['data']);
+	}
+	else
+	{
+		$amount = $_SESSION['ticket'];
+	}
+
 	$booking = $_SESSION['booking']['booking'];
 	// print_r($booking);
 	$sql_airport ="SELECT * from airports";
@@ -43,7 +52,68 @@
 		$gate_back = $ret_back->fetchArray(SQLITE3_ASSOC);
 	}
 
-	print_r($pass);
+	// print_r($_SESSION['finish']);
+	// print_r(implode(', ', (array) $_SESSION['booking']['service']->car_rent));
+	if(isset($_SESSION['user_id']))
+	{
+		$user_id = $_SESSION['user_id'];
+		for($i = 0; $i < $booking['pas_num']; $i++)
+		{
+
+			$insert_out ="
+			INSERT INTO passenger (user_id, flight_id, phone,
+			DOB, first_name, last_name,
+			firstname_eng, lastname_eng,
+			prefix, nationality, insurance,
+				food, car_rent, seat_no, lug)
+			VALUES ($user_id, ". $pass[$i]['out_id'] . ", '". $pass[$i]['phone']."',
+					'".$pass[$i]['DOB']."', '".$pass[$i]['firstname']."','".$pass[$i]['lastname']."',
+					'".$pass[$i]['fisrtname_eng']."', '".$pass[$i]['lastname_eng']."',
+					'".$pass[$i]['prefix']."','".$pass[$i]['nationality']."', '".$pass[$i]['insurance']."',
+					'".implode(', ', $pass[$i]['food'])."','".implode(', ', (array) $_SESSION['booking']['service']->car_rent)."',
+					'".$pass[$i]['seat_go']."', '".$pass[$i]['goLug']."');
+			";
+			$ret_out = $db->exec($insert_out);
+			if($booking['trip_type'] == 'go-2')
+			{
+				$insert_ret ="
+				INSERT INTO passenger (user_id, flight_id, phone,
+				DOB, first_name, last_name,
+				firstname_eng, lastname_eng,
+				prefix, nationality, insurance,
+					food, car_rent, seat_no, lug)
+				VALUES ($user_id, ". $pass[$i]['ret_id'] . ", '". $pass[$i]['phone']."',
+						'".$pass[$i]['DOB']."', '".$pass[$i]['firstname']."','".$pass[$i]['lastname']."',
+						'".$pass[$i]['fisrtname_eng']."', '".$pass[$i]['lastname_eng']."',
+						'".$pass[$i]['prefix']."','".$pass[$i]['nationality']."', '".$pass[$i]['insurance']."',
+						'".implode(', ', $pass[$i]['food'])."','".implode(', ', (array) $_SESSION['booking']['service']->car_rent)."',
+						'".$pass[$i]['seat_go']."', '".$pass[$i]['goLug']."');
+				";
+				$ret_ret = $db->exec($insert_ret);
+			}
+			// echo $insert_out;
+			// echo $insert_ret;
+		}
+		$pass_id = "
+				SELECT passenger_id FROM passenger
+				WHERE user_id =" . $user_id;
+		$query_id = $db->query($pass_id);
+		$pass_id = [];
+		while($row = $query_id->fetchArray(SQLITE3_ASSOC))
+		{
+			array_push($pass_id, $row);
+		}
+		// print_r($pass_id);
+		foreach($pass_id as $id)
+		{
+			$payment = "
+					INSERT INTO payment(user_id, passenger_id, method, amount)
+					VALUE ($user_id, ".$id['passenger_id'].", '".$amount->method."', ".$amount->amount.");";
+			
+		}
+
+	}
+
 
 ?>
 
