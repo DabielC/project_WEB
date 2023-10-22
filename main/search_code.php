@@ -45,9 +45,9 @@
         }
 	}
 ?>
-    <div class="flex justify-center">
+    <div class="flex justify-center mt-5 mb-96">
         <!-- Left Div (3:4) -->
-        <div class="flex-4/5 my-10">
+        <div class="flex-4/5">
             <h2 class="text-3xl font-semibold mb-6  mx-10">โปรดเลือกเที่ยวบิน</h2>
             <h4 class="text-xl mb-6  mx-10" id="trip_type" data-trip-type="<?php echo $trip_type;?>">ประเภทเที่ยวบิน :<?php
                 if($trip_type == 'go-1')
