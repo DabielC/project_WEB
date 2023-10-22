@@ -45,7 +45,7 @@
         }
 	}
 ?>
-    <div class="flex justify-center mt-5 mb-96">
+    <div class="flex justify-center mt-5 mb-48">
         <!-- Left Div (3:4) -->
         <div class="flex-4/5">
             <h2 class="text-3xl font-semibold mb-6  mx-10">โปรดเลือกเที่ยวบิน</h2>
