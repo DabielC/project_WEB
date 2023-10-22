@@ -82,6 +82,7 @@
 		$temp['seat_go'] = $seat->seats[$i]->seat_go[1];
 
 		array_push($com_pass, $temp);
+        $_SESSION['finish'] = $com_pass;
 	}
 
 	if($booking['trip_type'] == 'go-2')

@@ -1,0 +1,186 @@
+<?php
+	session_start();
+	$page_title = "ออกตั๋ว";
+	include('includes/head.php');
+	include("includes/navbar.php");
+	include("dbcon.php");
+	$amount = json_decode($_GET['data']);
+	$booking = $_SESSION['booking']['booking'];
+	// print_r($booking);
+	$sql_airport ="SELECT * from airports";
+    $ret = $db->query($sql_airport);
+	$pass = $_SESSION['finish'];
+	$airport_table = [];
+		while($row = $ret->fetchArray(SQLITE3_ASSOC))
+		{
+			if($row['airport_code'] == $booking['out']['out_origin'])
+			{
+				$airport_table['out_origin'] = $row['airport_name'];
+			}
+			if($row['airport_code'] == $booking['out']['out_dest'])
+			{
+				$airport_table['out_dest'] = $row['airport_name'];
+			}
+			if($booking['trip_type'] == 'go-2'){
+				if($row['airport_code'] == $booking['ret']['ret_origin'])
+				{
+					$airport_table['ret_origin'] = $row['airport_name'];
+				}
+				if($row['airport_code'] == $booking['ret']['ret_dest'])
+				{
+					$airport_table['ret_dest'] = $row['airport_name'];
+				}
+			}
+		}
+	$sql_gate_go ="SELECT gate from flights
+				WHERE flight_id ='" .$booking['out']['out_id']. "'";
+	$ret_go = $db->query($sql_gate_go);
+	$gate_go = $ret_go->fetchArray(SQLITE3_ASSOC);
+	if($booking['trip_type'] == 'go-2'){
+		$sql_gate_back ="SELECT gate from flights
+				WHERE flight_id ='" .$booking['ret']['ret_id']. "'";
+		$ret_back = $db->query($sql_gate_back);
+		$gate_back = $ret_back->fetchArray(SQLITE3_ASSOC);
+	}
+
+	print_r($pass);
+
+?>
+
+<div class="w-screen h-screen flex flex-col">
+	<?php for($i=0; $i < $_SESSION['booking']['booking']['pas_num']; $i++){?>
+		<section class="w-full flex-grow flex items-center justify-center p-4">
+			<div class="flex w-full max-w-3xl text-zinc-900 h-64">
+
+				<div class="h-full bg-white flex items-center justify-center px-8 rounded-l-3xl flex flex-col shadow-md">
+						<img src="picture/logo.png" class="w-36 h-auto mb-2" alt="">
+						<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=<?php echo print_r($pass[$i]);?>" class="w-36 h-auto" alt="">
+				</div>
+
+				<div class="relative h-full flex flex-col items-center border-dashed justify-between border-2 bg-white border-gray-500">
+					<div class="absolute rounded-full w-8 h-8 bg-gray-100 -top-5"></div>
+					<div class="absolute rounded-full w-8 h-8 bg-gray-100 -bottom-5"></div>
+				</div>
+				<div class="h-full py-8 px-10 bg-white flex-grow rounded-r-3xl flex flex-col shadow-md">
+					<div class="flex w-full justify-between items-center">
+						<div class="flex flex-col items-center">
+							<span class="text-4xl font-bold"><?php echo $booking['out']['out_dest']?></span>
+							<span class="text-zinc-500 text-sm"><?php echo $airport_table['out_origin']?></span>
+						</div>
+						<div class="flex flex-col flex-grow items-center px-10">
+							<span class="font-bold text-xs"><?php echo $booking['out']['out_id']?></span>
+							<div class="w-full flex items-center mt-2">
+								<div class="w-3 h-3 rounded-full border-2 border-zinc-900"></div>
+								<div class="flex-grow border-t-2 border-zinc-400 border-dotted h-px"></div>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mx-2">
+									<path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
+								</svg>
+								<div class="flex-grow border-t-2 border-zinc-400 border-dotted h-px"></div>
+								<div class="w-3 h-3 rounded-full border-2 border-zinc-900"></div>
+							</div>
+							<div class="flex items-center px-3 rounded-full bg-lime-400 h-8 mt-2">
+								<span class="text-sm"><?php echo $booking['out']['out_dep'];?> ถึง <?php echo $booking['out']['out_arv']?></span>
+							</div>
+						</div>
+						<div class="flex flex-col items-center">
+							<span class="text-4xl font-bold"><?php echo $booking['out']['out_dest']?></span>
+							<span class="text-zinc-500 text-sm"><?php echo $airport_table['out_dest']?></span>
+						</div>
+					</div>
+					<div class="flex w-full mt-auto justify-between">
+						<div class="flex flex-col">
+							<span class="text-xs text-zinc-400">วันที่ออกเดินทาง</span>
+							<span class="font-mono"><?php echo $booking['out']['date_out']?></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-xs text-zinc-400">เวลาที่ออกเดินทาง</span>
+							<span class="font-mono"><?php echo $booking['out']['out_dep'];?></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-xs text-zinc-400">ผู้โดยสาร</span>
+							<span class="font-mono"><?php echo $pass[$i]['firstname'];?></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-xs text-zinc-400">Gate/Seat</span>
+							<span class="font-mono"><?php echo $gate_go['gate'];?>/<?php echo $pass[$i]['seat_go'];?></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<?php if($_SESSION['booking']['booking']['trip_type'] == 'go-2'){?>
+		<section class="w-full flex-grow flex items-center justify-center p-4">
+			<div class="flex w-full max-w-3xl text-zinc-900 h-64">
+
+				<div class="h-full bg-white flex items-center justify-center px-8 rounded-l-3xl flex flex-col shadow-md">
+						<img src="picture/logo.png" class="w-36 h-auto mb-2" alt="">
+						<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=<?php echo print_r($pass[$i]);?>" class="w-36 h-auto" alt="">
+				</div>
+
+				<div class="relative h-full flex flex-col items-center border-dashed justify-between border-2 bg-white border-gray-500">
+					<div class="absolute rounded-full w-8 h-8 bg-gray-100 -top-5"></div>
+					<div class="absolute rounded-full w-8 h-8 bg-gray-100 -bottom-5"></div>
+				</div>
+				<div class="h-full py-8 px-10 bg-white flex-grow rounded-r-3xl flex flex-col shadow-md">
+					<div class="flex w-full justify-between items-center">
+						<div class="flex flex-col items-center">
+							<span class="text-4xl font-bold"><?php echo $booking['ret']['ret_origin']?></span>
+							<span class="text-zinc-500 text-sm"><?php echo $airport_table['ret_origin']?></span>
+						</div>
+						<div class="flex flex-col flex-grow items-center px-10">
+							<span class="font-bold text-xs"><?php echo $booking['ret']['ret_id']?></span>
+							<div class="w-full flex items-center mt-2">
+								<div class="w-3 h-3 rounded-full border-2 border-zinc-900"></div>
+								<div class="flex-grow border-t-2 border-zinc-400 border-dotted h-px"></div>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mx-2">
+									<path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
+								</svg>
+								<div class="flex-grow border-t-2 border-zinc-400 border-dotted h-px"></div>
+								<div class="w-3 h-3 rounded-full border-2 border-zinc-900"></div>
+							</div>
+							<div class="flex items-center px-3 rounded-full bg-lime-400 h-8 mt-2">
+								<span class="text-sm"><?php echo $booking['ret']['ret_dep'];?> ถึง <?php echo $booking['ret']['ret_arv']?></span>
+							</div>
+						</div>
+						<div class="flex flex-col items-center">
+							<span class="text-4xl font-bold"><?php echo $booking['ret']['ret_dest']?></span>
+							<span class="text-zinc-500 text-sm"><?php echo $airport_table['ret_dest']?></span>
+						</div>
+					</div>
+					<div class="flex w-full mt-auto justify-between">
+						<div class="flex flex-col">
+							<span class="text-xs text-zinc-400">วันที่ออกเดินทาง</span>
+							<span class="font-mono"><?php echo $booking['ret']['date_return']?></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-xs text-zinc-400">เวลาที่ออกเดินทาง</span>
+							<span class="font-mono"><?php echo $booking['ret']['ret_dep'];?></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-xs text-zinc-400">ผู้โดยสาร</span>
+							<span class="font-mono"><?php echo $pass[$i]['firstname'];?></span>
+						</div>
+						<div class="flex flex-col">
+							<span class="text-xs text-zinc-400">Gate/Seat</span>
+							<span class="font-mono"><?php echo $gate_back['gate'];?>/<?php echo $pass[$i]['seat_go'];?></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<?php }?>
+	<?php }?>
+	<div class="p-4 rounded-md">
+        <div class="flex justify-center mt-4 gap-6 sm:flex flex-col items-center py-2 px-4 md:flex flex-col py-2 px-4 lg:flex flex-col py-2 px-4">
+            <button" id="confirm" class="bg-red-500 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full">
+                    print
+            </button>
+        </div>
+    </div>
+	<?php include("includes/footer.php")?>
+</div>
+	<script>
+        const printBtn = document.querySelector('#confirm');
+        printBtn.addEventListener('click', () => window.print());
+    </script>
+
