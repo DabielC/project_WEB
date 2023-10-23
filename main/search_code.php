@@ -123,7 +123,7 @@
                         </h4>
                     </div>
 
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full price-button"
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-sm price-button hover:bg-red-600"
                         data-price-outbound="<?php echo $table_go[$i]['price'];?>"
                         data-direction="outbound"
                         data-index="<?php echo $i;?>"
@@ -172,7 +172,7 @@
                             </h4>
                         </div>
 
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full price-button"
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-sm price-button hover:bg-red-600"
                             data-price-return="<?php echo $table_return[$i]['price'];?>"
                             data-direction="return"
                             data-index="<?php echo $i;?>"
@@ -203,7 +203,7 @@
                         <?php } ?>
                         <div class="text-lg font-semibold" id="total-price"></div>
                     </div>
-                    <button type="button" id="confirm" name="confirm" class="bg-red-500 text-white px-4 py-2 rounded-full">ยืนยันการเลือกเที่ยวบิน</button></button>
+                    <button type="button" id="confirm" name="confirm" class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600 ">ยืนยันการเลือกเที่ยวบิน</button></button>
             </div>
         </div>
 

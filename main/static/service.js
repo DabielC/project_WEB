@@ -7,20 +7,17 @@
             selectedPlanName = planName;
             selectedPlanPrice = planPrice;
 
-            // Update the selected plan display
-            document.getElementById('selectedPlan').innerText = `${selectedPlanName} - ${selectedPlanPrice} THB`;
-
             // Update the total price display
-            updateTotalPrice();
+            // updateTotalPrice();
             insurance = [planName, planPrice];
-            // console.log(insurance);
+            console.log(insurance);
         }
 
-        function updateTotalPrice() {
-            const totalPriceElement = document.getElementById('totalPrice');
-            const totalPrice = selectedPlanPrice;
-            totalPriceElement.innerText = `ราคาทั้งหมด: ${totalPrice} THB`;
-        }
+        // function updateTotalPrice() {
+        //     // const totalPriceElement = document.getElementById('totalPrice');
+        //     // const totalPrice = selectedPlanPrice;
+        //     // totalPriceElement.innerText = `ราคาทั้งหมด: ${totalPrice} THB`;
+        // }
 
         function showAdditionalDetails() {
             // Toggle the visibility of additional details
@@ -29,15 +26,8 @@
         }
 
         function clearSelectedPlan() {
-            // Clear the selected plan and total price
-            selectedPlanName = '';
-            selectedPlanPrice = 0;
-
-            // Update the selected plan and total price display
-            document.getElementById('selectedPlan').innerText = '';
-            document.getElementById('totalPrice').innerText = 'ราคาทั้งหมด: 0 THB';
             insurance = [];
-            // console.log(insurance);
+            console.log(insurance);
         }
 
 

@@ -17,7 +17,7 @@ if (isset($_GET['out_origin'])) {
 	$pas_num = $_GET['pas_num'];
 	$trip_type = $_GET['trip_type'];
 	$date_out = $_GET['date_out'];
-	
+
 	if ($trip_type == 'go-2') {
 		$date_return = $_GET['date_return'];
 		$ret_origin = $_GET['ret_origin'];
@@ -78,7 +78,7 @@ else
                 <div class="text-gray-600 mb-2">เวลาที่ออกเดินทาง : <?php echo $out_dep;?></div>
                 <div class="text-gray-600 mb-2">เวลาที่ถึง : <?php echo $out_arv;?></div>
                 <div class="text-gray-600 mb-2">วันที่ออกเดินทาง : <?php echo $date_out;?></div>
-                <div class="inline-block bg-red-500 text-white p-2 rounded-full"><?php echo $out_price;?> บาท</div>
+                <div class="text-red-500 font-bold underline"><?php echo $out_price;?> บาท</div>
             </div>
         </div>
 		<?php if($trip_type == 'go-2') {?>
@@ -89,7 +89,7 @@ else
                 	<div class="text-gray-600 mb-2">เวลาที่เดินทางกลับ : <?php echo $ret_dep;?></div>
                 	<div class="text-gray-600 mb-2">เวลาที่ถึง : <?php echo $ret_arv;?></div>
                 	<div class="text-gray-600 mb-2">วันที่เดินทางกลับ : <?php echo $date_return;?></div>
-					<div class="inline-block bg-red-500 text-white p-2 rounded-full"><?php echo $ret_price;?> บาท</div>
+					<div class="text-red-500 font-bold underline"><?php echo $ret_price;?> บาท</div>
 				</div>
 			</div>
 		<?php }?>
@@ -98,7 +98,7 @@ else
         <form id="passenger_form" action="service.php" method="POST" class="flex flex-col gap-4" novalidate>
 		<div class="h-96 overflow-x-hidden overflow-y-scroll w-auto">
 		<?php for($i = 1; $i < $pas_num+1; $i++) { ?>
-			<div class="mx-auto my-10 border p-6 shadow-md bg-white w-2/4  flex flex-col">
+			<div class="mx-auto mt-10 mb-5 border p-6 shadow-md bg-white w-10/12  flex flex-col">
 				<h2 class="text-2xl font-semibold m-6 text-center">กรุณากรอกข้อมูลผู้โดยสารคนที่ <?php echo $i;?></h2>
 				<div class="mb-4">
 					<label for="prefix_<?php echo $i; ?>" class="block text-md font-medium leading-6 text-gray-900">คำนำหน้าชื่อ</label>

@@ -40,15 +40,15 @@
             <div class="border p-4 rounded-md shadow-md bg-white">
                 <!-- carousel -->
 				<div class="relative mb-10">
-						<div class="slides-container h-auto flex snap-x snap-mandatory sm:overflow-hidden overflow-x-auto space-x-2 rounded scroll-smooth before:w-[20%] before:shrink-0 after:w-[20%] after:shrink-0 md:before:w-0 md:after:w-0">
+						<div style="height: 500px;" class="slides-container h-96 flex snap-x snap-mandatory sm:overflow-hidden overflow-x-auto space-x-2 rounded scroll-smooth before:w-[20%] before:shrink-0 after:w-[20%] after:shrink-0 md:before:w-0 md:after:w-0">
 							<div class="slide h-full flex-shrink-0 snap-center rounded overflow-hidden">
-								<img src="picture/insurance.png" alt="" class="w-3/3 aspect-w-1">
+								<img class=" h-full max-w-auto" src="picture/insurance.png" alt="" class="w-3/3 aspect-w-1">
 							</div>
 							<div class="slide h-full flex-shrink-0 snap-center rounded overflow-hidden">
-								<img src="picture/insurance_price.png" alt="" class="w-3/3 aspect-w-1">
+								<img class=" h-full max-w-auto" src="picture/insurance_price.png" alt="" class="w-3/3 aspect-w-1">
 							</div>
 							<div class="slide h-full flex-shrink-0 snap-center rounded overflow-hidden">
-								<img src="picture/insurance_des.png" alt="" class="w-3/3 aspect-w-1">
+								<img class=" h-full max-w-auto" src="picture/insurance_des.png" alt="" class="w-3/3 aspect-w-1">
 							</div>
 						</div>
 
@@ -68,7 +68,7 @@
 
                 <!-- add detail button -->
                 <div class="flex justify-center mt-4">
-                    <button class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
+                    <button class="bg-white hover:bg-red-500 hover:text-white border text-red-500 border-red-500  py-2 px-4 rounded-xl"
                         onclick="showAdditionalDetails()">
                         แสดงรายละเอียดเพิ่มเติม
                     </button>
@@ -97,36 +97,50 @@
 
 
                     <!-- price -->
-                    <div class="flex justify-center mt-4 gap-10 sm:flex flex-col items-center py-1 px-1 md:flex flex-col py-1 px-1 lg:flex flex-col py-1 px-1">
+                    <div class="flex justify-center mt-4 gap-10 sm:flex flex-col items-start py-1 px-1 md:flex flex-col py-1 px-1 lg:flex flex-col py-1 px-1">
 
                         <?php if($_SESSION['booking']['booking']['pas_num'] == 1) {?>
                         <div>
-                            <button class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full"
-                                onclick="selectPlan('แผนคนเดียว', 249)">
-                                แผนคนเดียว 249 THB
-                            </button>
+                            <div class="flex flex-col">
+                                <div class="mb-3">
+                                    <input type="radio" name="single" onclick="selectPlan('แผนคนเดียว', 249)" class="mr-2">
+                                    <label for="male" class="mr-5">แผนคนเดียว 249 THB</label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" name="single" onclick="clearSelectedPlan()" class="mr-2">
+                                    <label for="female">ไม่เป็นไร, ขอบคุณ</label>
+                                </div>
+
+                            </div>
                         </div>
                         <?php }?>
                         <?php if($_SESSION['booking']['booking']['pas_num'] >= 2 and $_SESSION['booking']['booking']['pas_num'] <= 4) {?>
                         <div>
-                            <button class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full"
-                                onclick="selectPlan('แผนครอบครัว', 599)">
-                                แผนครอบครัว (2 - 5) คน  599 THB
-                            </button>
+                            <div class="flex flex-col">
+                                <input type="radio" name="family" onclick="selectPlan('แผนครอบครัว', 599)"  class="mr-2">
+                                <label for="male" class="mr-5"> แผนครอบครัว (2 - 5) คน 599 THB</label>
+
+                                <input type="radio" name="family" onclick="clearSelectedPlan()" class="mr-2">
+                                <label for="female">ไม่เป็นไร, ขอบคุณ</label>
+                            </div>
                         </div>
                         <?php }?>
                         <?php if($_SESSION['booking']['booking']['pas_num'] > 4) {?>
                         <div>
-                            <button class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full"
-                                onclick="selectPlan('แผนกลุ่มหรือหมู่คณะ', 999)">
-                                แผนกลุ่ม (4 คนขึ้นไป)  999 THB
-                            </button>
+                            <div class="flex flex-col">
+                                <input type="radio" name="group" onclick="selectPlan('แผนกลุ่มหรือหมู่คณะ', 999)"  class="mr-2">
+                                <label for="male" class="mr-5">แผนกลุ่ม (4 คนขึ้นไป) 999 THB</label>
+
+                                <input type="radio" name="group" onclick="clearSelectedPlan()" class="mr-2">
+                                <label for="female">ไม่เป็นไร, ขอบคุณ</label>
+                            </div>
                         </div>
                         <?php }?>
                     </div>
 
                     <!-- del -->
-                    <div class="flex justify-center mt-4">
+                    <!-- <div class="flex justify-center mt-4">
                         <div class="max-w-md p-4 bg-white rounded-lg bg-white bg-white shadow-md w-full sm:w-2/3">
                             <h2 class="text-lg font-bold mb-2 text-center ">สรุปรายการ</h2>
                             <div class="text-xl font-semibold mb-2 text-center text-green-600" id="selectedPlan"></div>
@@ -138,7 +152,7 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -170,7 +184,7 @@
                                 <div
                                     class="flex justify-center mt-4 gap-6 sm:items-center py-1 px-1 md:py-1 px-1 lg:py-1 px-1">
                                     <button onclick="removeFood()"
-                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                                            class="bg-red-500 hover:bg-red-700 text-white  py-1 px-7 rounded-xl">
                                             ลบ
                                     </button>
                                 </div>
@@ -187,7 +201,7 @@
                                     <div class="flex justify-between items-center mt-4">
 
                                         <button id="f1"
-                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-1 px-5 rounded-2xl">
                                             +
                                         </button>
                                         <span class="text-lg">399 THB</span>
@@ -201,7 +215,7 @@
                                     <img src="picture/A2.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
                                         <button id="f2"
-                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-1 px-5 rounded-2xl">
                                             +
                                         </button>
                                         <span class="text-lg">299 THB</span>
@@ -215,7 +229,7 @@
                                     <img src="picture/A9.png" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
                                         <button id="f3"
-                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-1 px-5 rounded-2xl">
                                             +
                                         </button>
                                         <span class="text-lg">499 THB</span>
@@ -229,7 +243,7 @@
                                     <img src="picture/A4.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
                                         <button id="f4"
-                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-1 px-5 rounded-2xl">
                                             +
                                         </button>
                                         <span class="text-lg">259 THB</span>
@@ -243,7 +257,7 @@
                                     <img src="picture/A5.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
                                         <button id="f5"
-                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-1 px-5 rounded-2xl">
                                             +
                                         </button>
                                         <span class="text-lg">299 THB</span>
@@ -257,7 +271,7 @@
                                     <img src="picture/A2.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
                                         <button id="f6"
-                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-1 px-5 rounded-2xl">
                                             +
                                         </button>
                                         <span class="text-lg">399 THB</span>
@@ -309,7 +323,7 @@
                     <!-- Submit button -->
                     <div class="flex justify-center mt-4">
                         <button onclick="calculatePrice();"
-                            class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                            class="bg-white hover:bg-red-500 hover:text-white border text-red-500 border-red-500  py-2 px-9 rounded-xl">
                             คำนวณราคา
                         </button>
                     </div>
@@ -332,7 +346,7 @@
                             </div>
                             <div class="flex justify-center mt-4 gap-6 sm:flex flex-col items-center py-2 px-4 md:flex flex-col py-2 px-4 lg:flex flex-col py-2 px-4">
                                 <button onclick="removeCar();"
-                                        class="bg-red-500 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full">
+                                        class="bg-white hover:bg-red-500 hover:text-white border text-red-500 border-red-500  py-2 px-9 rounded-xl">
                                     ลบ
                                 </button>
                             </div>
