@@ -273,7 +273,7 @@
                             <div class="w-full sm:w-1/2 lg:w-1/3 p-4">
                                 <div class="border p-4 rounded-md shadow-md bg-white">
                                     <h2 class="text-lg text-center font-bold mb-2">สเต็กซี่โครงราดซอส</h2>
-                                    <img src="picture/A2.jpg" alt="" class="w-full h-auto object-cover rounded">
+                                    <img src="picture/A1.jpg" alt="" class="w-full h-auto object-cover rounded">
                                     <div class="flex justify-between items-center mt-4">
                                         <button id="f6"
                                             class="bg-red-500 hover:bg-green-700 text-white font-bold py-1 px-5 rounded-2xl">
