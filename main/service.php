@@ -103,13 +103,15 @@
                         <div>
                             <div class="flex flex-col">
                                 <div class="mb-3">
-                                    <input type="radio" name="single" onclick="selectPlan('แผนคนเดียว', 249)" class="mr-2">
                                     <label for="male" class="mr-5">แผนคนเดียว 249 THB</label>
+                                    <input type="radio" name="single" onclick="selectPlan('แผนคนเดียว', 249)" class="mr-2">
+
                                 </div>
 
                                 <div>
-                                    <input type="radio" name="single" onclick="clearSelectedPlan()" class="mr-2">
                                     <label for="female">ไม่เป็นไร, ขอบคุณ</label>
+                                    <input type="radio" name="single" onclick="clearSelectedPlan()" class="mr-2">
+
                                 </div>
 
                             </div>
@@ -118,22 +120,25 @@
                         <?php if($_SESSION['booking']['booking']['pas_num'] >= 2 and $_SESSION['booking']['booking']['pas_num'] <= 4) {?>
                         <div>
                             <div class="flex flex-col">
-                                <input type="radio" name="family" onclick="selectPlan('แผนครอบครัว', 599)"  class="mr-2">
                                 <label for="male" class="mr-5"> แผนครอบครัว (2 - 5) คน 599 THB</label>
+                                <input type="radio" name="family" onclick="selectPlan('แผนครอบครัว', 599)"  class="mr-2">
 
-                                <input type="radio" name="family" onclick="clearSelectedPlan()" class="mr-2">
                                 <label for="female">ไม่เป็นไร, ขอบคุณ</label>
+                                <input type="radio" name="family" onclick="clearSelectedPlan()" class="mr-2">
+
                             </div>
                         </div>
                         <?php }?>
                         <?php if($_SESSION['booking']['booking']['pas_num'] > 4) {?>
                         <div>
                             <div class="flex flex-col">
-                                <input type="radio" name="group" onclick="selectPlan('แผนกลุ่มหรือหมู่คณะ', 999)"  class="mr-2">
                                 <label for="male" class="mr-5">แผนกลุ่ม (4 คนขึ้นไป) 999 THB</label>
+                                <input type="radio" name="group" onclick="selectPlan('แผนกลุ่มหรือหมู่คณะ', 999)"  class="mr-2">
 
-                                <input type="radio" name="group" onclick="clearSelectedPlan()" class="mr-2">
+
                                 <label for="female">ไม่เป็นไร, ขอบคุณ</label>
+                                <input type="radio" name="group" onclick="clearSelectedPlan()" class="mr-2">
+
                             </div>
                         </div>
                         <?php }?>
