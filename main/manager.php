@@ -11,7 +11,10 @@
 	{
 		array_push($flight_table, $row);
 	}
-	// print_r($flight_table);
+	if(!isset($_SESSION['authenticated']))
+	{
+		header("location: index.php");
+	}
 ?>
 
 <div class="mx-16 mt-16 mb-5 m flex items-center">
@@ -63,50 +66,70 @@
 
 	if(isset($_POST['update']))
 	{
-		$flight_id = $_POST['flight_id'];
-		$origin = $_POST['from'];
-		$destination = $_POST['to'];
-		$date_out = $_POST['date_out'];
-		$out_time = $_POST['out_time'];
-		$arv_time = $_POST['arv_time'];
-		$num_seat = $_POST['num_seat'];
-		$price = $_POST['price'];
-		$gate = $_POST['gate'];
-		$update = "
-				UPDATE flights
-				SET
-					origin = '$origin',
-					destination = '$destination',
-					depart_date = '$date_out',
-					depart_time = '$out_time',
-					arrive_time = '$arv_time',
-					num_of_seat = $num_seat,
-					price = $price,
-					gate = '$gate'
-				WHERE flight_id = $flight_id
-			";
-		$query = $db->exec($update);
+		if (empty($_POST['flight_id'])) {
+			?>
+				<div class="mx-16 mt-16 mb-5 m flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md relative mb-5" role="alert">
+					<h5><?php echo "แก้ไขไม่สำเร็จ"; ?></h5>
+				</div>
+			<?php
+		}
+		else
+		{
+			$flight_id = $_POST['flight_id'];
+			$origin = $_POST['from'];
+			$destination = $_POST['to'];
+			$date_out = $_POST['date_out'];
+			$out_time = $_POST['out_time'];
+			$arv_time = $_POST['arv_time'];
+			$num_seat = $_POST['num_seat'];
+			$price = $_POST['price'];
+			$gate = $_POST['gate'];
+			$update = "
+					UPDATE flights
+					SET
+						origin = '$origin',
+						destination = '$destination',
+						depart_date = '$date_out',
+						depart_time = '$out_time',
+						arrive_time = '$arv_time',
+						num_of_seat = $num_seat,
+						price = $price,
+						gate = '$gate'
+					WHERE flight_id = $flight_id
+				";
+			$query = $db->exec($update);
+		}
 	}
 
 	if(isset($_POST['add']))
 	{
-		$origin = $_POST['from'];
-		$destination = $_POST['to'];
-		$date_out = $_POST['date_out'];
-		$out_time = $_POST['out_time'];
-		$arv_time = $_POST['arv_time'];
-		$num_seat = $_POST['num_seat'];
-		$price = $_POST['price'];
-		$gate = $_POST['gate'];
-		$insert = "
-		INSERT INTO flights (origin,destination, depart_date,
-		depart_time, arrive_time, num_of_seat,
-		price, gate)
-		VALUES ('$origin', '$destination', '$date_out',
-				'$out_time', '$arv_time', $num_seat,
-				$price, '$gate')
-		";
-		$query = $db->exec($insert);
+		if (empty($_POST['from'])) {
+			?>
+				<div class="mx-16 mt-16 mb-5 m flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md relative mb-5" role="alert">
+					<h5><?php echo "เพิ่มเที่ยวบินไม่สำเร็จ"; ?></h5>
+				</div>
+			<?php
+		}
+		else
+		{
+			$origin = $_POST['from'];
+			$destination = $_POST['to'];
+			$date_out = $_POST['date_out'];
+			$out_time = $_POST['out_time'];
+			$arv_time = $_POST['arv_time'];
+			$num_seat = $_POST['num_seat'];
+			$price = $_POST['price'];
+			$gate = $_POST['gate'];
+			$insert = "
+			INSERT INTO flights (origin,destination, depart_date,
+			depart_time, arrive_time, num_of_seat,
+			price, gate)
+			VALUES ('$origin', '$destination', '$date_out',
+					'$out_time', '$arv_time', $num_seat,
+					$price, '$gate')
+			";
+			$query = $db->exec($insert);
+		}
 	}
 
 ?>

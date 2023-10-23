@@ -11,7 +11,10 @@
 	{
 		array_push($flight_table, $row);
 	}
-	// print_r($flight_table);
+	if(!isset($_SESSION['authenticated']))
+	{
+		header("location: index.php");
+	}
 ?>
 
 <div class="mx-16 mt-16 mb-5 m flex items-center">
@@ -68,8 +71,22 @@
 			{
 				array_push($pas_table, $row);
 			}
+			if(empty($pas_table))
+			{
+					?>
+					<div class="mx-16 mt-16 mb-5 m flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md relative mb-5" role="alert">
+						<h5><?php echo "ไม่พบรายละเอียดเที่ยวบิน"; ?></h5>
+					</div>
+					<?php
+			}
 		}
-
+		else {
+				?>
+				<div class="mx-16 mt-16 mb-5 m flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-md relative mb-5" role="alert">
+					<h5><?php echo "ไม่พบรายละเอียดเที่ยวบิน"; ?></h5>
+				</div>
+				<?php
+			}
 	}
 
 ?>

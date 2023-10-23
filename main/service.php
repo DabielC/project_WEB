@@ -7,6 +7,8 @@
 	include("includes/navbar.php");
 	include("dbcon.php");
 	$passenger = [];
+    if(isset($_SESSION['booking']))
+    {
 	for ($i = 1; $i < $_SESSION['booking']['booking']['pas_num'] + 1; $i++) {
 		$temp = array(
 			"prefix" => $_POST["prefix_$i"],
@@ -22,6 +24,11 @@
 		$passenger[] = $temp;
 	}
     $_SESSION['booking']['passenger'] = $passenger;
+    }
+    else
+    {
+        header("location: index.php");
+    }
 
 ?>
 

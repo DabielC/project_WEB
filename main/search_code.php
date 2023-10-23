@@ -28,6 +28,7 @@
             }
         }
 
+
         $sql = "SELECT * FROM flights
                 WHERE origin = '$from'
                 AND destination = '$to'
@@ -44,6 +45,10 @@
             header('location: index.php');
         }
 	}
+    else
+    {
+        header('location: index.php');
+    }
 ?>
     <div class="flex justify-center mt-5 mb-48">
         <!-- Left Div (3:4) -->

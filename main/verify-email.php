@@ -31,7 +31,7 @@
 				}
 				else
 				{
-					$_SESSION['status'] = "Verification Failed";
+					$_SESSION['status'] = "ยืนยันไม่สำเร็จ";
 					$db->lastErrorMsg();
 					header("location: login.php");
 					exit();
@@ -39,22 +39,22 @@
 			}
 			else if ($row['verify_status'] == 1)
 			{
-				$_SESSION['status'] = "Email already Verified. Please Login";
+				$_SESSION['status'] = "ยืนยันอีเมลเรียบร้อยแล้วกรุณาเข้าสู่ระบบ";
 				header("location: login.php");
 				exit();
 			}
 		}
 		else
 		{
-			$_SESSION['status'] = "This token does not exists";
+			$_SESSION['status'] = "ไม่มี token นี้";
 			header("location: login.php");
 		}
 
 	}
 	else
 	{
-		$_SESSION['status'] = "Not Allowed";
-		header("location: login.php");
+		$_SESSION['status'] = "ไม่สมารถเข้าถึงได้";
+		header("location: index.php");
 	}
 
 ?>

@@ -43,5 +43,11 @@
 			exit();
 		}
 	}
+	else
+	{
+		$_SESSION['status'] = "ไม่สามารถเข้าถึงได้";
+		header("location: login.php");
+		exit();
+	}
 
 ?>

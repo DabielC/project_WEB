@@ -4,6 +4,8 @@
 	include('includes/head.php');
 	include("includes/navbar.php");
 	include("dbcon.php");
+	if(isset($_GET['data']))
+	{
 	$service_data = json_decode($_GET['data']);
 	$_SESSION['booking']['service'] = $service_data;
 
@@ -45,7 +47,11 @@
 				WHERE flight_id = " . $_SESSION['booking']['booking']['out']['out_id'];
 	$ret_num_out = $db->query($seat_num_out);
 	$num_out = $ret_num_out->fetchArray(SQLITE3_ASSOC);
-
+	}
+	else
+	{
+		header("location: index.php");
+	}
 ?>
 <link rel="stylesheet" href="static/seat.css">
 

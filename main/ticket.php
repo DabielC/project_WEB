@@ -5,6 +5,12 @@
 	include("includes/navbar.php");
 	include("dbcon.php");
 
+	if(!isset($_SESSION['booking']))
+	{
+		header("location: index.php");
+		exit();
+	}
+
 	if(isset($_GET['data']))
 	{
 		$amount = json_decode($_GET['data']);
@@ -88,7 +94,7 @@
 						'".$pass[$i]['fisrtname_eng']."', '".$pass[$i]['lastname_eng']."',
 						'".$pass[$i]['prefix']."','".$pass[$i]['nationality']."', '".$pass[$i]['insurance']."',
 						'".implode(', ', $pass[$i]['food'])."','".implode(', ', (array) $_SESSION['booking']['service']->car_rent)."',
-						'".$pass[$i]['seat_go']."', '".$pass[$i]['goLug']."');
+						'".$pass[$i]['seat_back']."', '".$pass[$i]['goLug']."');
 				";
 				$ret_ret = $db->exec($insert_ret);
 			}
@@ -145,7 +151,7 @@
 						'".$pass[$i]['fisrtname_eng']."', '".$pass[$i]['lastname_eng']."',
 						'".$pass[$i]['prefix']."','".$pass[$i]['nationality']."', '".$pass[$i]['insurance']."',
 						'".implode(', ', $pass[$i]['food'])."','".implode(', ', (array) $_SESSION['booking']['service']->car_rent)."',
-						'".$pass[$i]['seat_go']."', '".$pass[$i]['goLug']."');
+						'".$pass[$i]['seat_back']."', '".$pass[$i]['goLug']."');
 				";
 				$ret_ret = $db->exec($insert_ret);
 			}
@@ -320,10 +326,15 @@
 		<?php }?>
 	<?php }?>
 	<div class="p-4 rounded-md">
-        <div class="flex justify-center mt-4 gap-6 sm:flex flex-col items-center py-2 px-4 md:flex flex-col py-2 px-4 lg:flex flex-col py-2 px-4">
-            <button" id="confirm" class="bg-red-500 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full">
+        <div class="flex justify-center sm:flex flex-col items-center py-2 px-4 md:flex flex-col py-2 px-4 lg:flex flex-col py-2 px-4">
+            <button" id="confirm" class="bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full">
                     print
             </button>
+        </div>
+        <div class="flex justify-center mt-4 gap-6 sm:flex flex-col items-center py-2 px-4 md:flex flex-col py-2 px-4 lg:flex flex-col py-2 px-4">
+			<form action="index.php" method="POST">
+				<button type="submit" name="done" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full">เสร็จสิ้น</button>
+			</form>
         </div>
     </div>
 	<?php include("includes/footer.php")?>

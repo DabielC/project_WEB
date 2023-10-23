@@ -5,7 +5,7 @@
 	include("includes/navbar.php");
 	include("dbcon.php");
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if (isset($_GET['out_origin'])) {
 	$out_origin = $_GET['out_origin'];
 	$out_dest = $_GET['out_dest'];
 	$out_price = $_GET['out_price'];
@@ -17,13 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	$pas_num = $_GET['pas_num'];
 	$trip_type = $_GET['trip_type'];
 	$date_out = $_GET['date_out'];
-}
-else
-{
-	header("location: index.php");
-}
-
-
+	
 	if ($trip_type == 'go-2') {
 		$date_return = $_GET['date_return'];
 		$ret_origin = $_GET['ret_origin'];
@@ -64,6 +58,12 @@ else
 			"trip_type" => $trip_type]
 		);
 	}
+}
+else
+    {
+        header('location: index.php');
+    }
+
 ?>
 <link rel="stylesheet" href="static/error.css">
 

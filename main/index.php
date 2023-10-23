@@ -11,6 +11,10 @@
 	{
 		array_push($airport_table, $row);
 	}
+	if(isset($_POST['done']))
+	{
+		unset($_SESSION['booking']);
+	}
 ?>
 <link rel="stylesheet" href="static/error.css">
 
